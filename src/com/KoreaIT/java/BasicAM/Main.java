@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BasicAM;
 
+<<<<<<< HEAD
 //날짜 시간
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 //입력
+=======
+//조회
+//삭제
+//모두삭제
+//명령어 종류
+
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 import java.util.Scanner;
 
 public class Main {
@@ -22,9 +32,27 @@ public class Main {
 		List<Article> articles = new ArrayList<>();
 
 		while (true) {
+<<<<<<< HEAD
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim(); // trum() -> 양쪽 끝 공백을 없앰
 
+=======
+
+			System.out.printf("명령어 ) ");
+			String command = sc.nextLine().trim(); // trum() -> 양쪽 끝 공백을 없앰
+			
+			//글 조회
+			String[] s = command.split(" ");
+			String[] sN = new String[s.length];
+			int Stringtoint = 0;
+			for(int i = 0; i < s.length; i++) {
+				sN[i] = s[i];
+				if(s.length == 2) {
+					Stringtoint = Integer.parseInt(sN[2]);
+				}
+			}
+			
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 			if (command.length() == 0) {
 				System.out.println("명령어를 입력해주세요");
 				continue;
@@ -34,12 +62,17 @@ public class Main {
 				break;
 			}
 
+<<<<<<< HEAD
 			// 1. 게시글 확인
+=======
+			// 게시글 확인
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 			if (command.equals("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 					continue;
 				}
+<<<<<<< HEAD
 
 				System.out.println("번호 |  제목");
 				String tempTitle = null;
@@ -47,6 +80,15 @@ public class Main {
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article Get = articles.get(i);
 					if (Get.title.length() > 4) {
+=======
+				
+				System.out.println("번호 |  제목");
+				String tempTitle = null;
+				
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article Get = articles.get(i);
+					if(Get.title.length() > 4) {
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 						tempTitle = Get.title.substring(0, 5);
 						System.out.printf("  %d  |  %s...\n", Get.id, tempTitle);
 						continue;
@@ -56,6 +98,7 @@ public class Main {
 				}
 			}
 
+<<<<<<< HEAD
 			// 2. 글 조회
 			// 명령어 입력시에 번호가 없을 때
 			else if (command.equals("article detail")) {
@@ -109,6 +152,9 @@ public class Main {
 			}
 
 			// 3. 글 생성
+=======
+			// 글 생성
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 			else if (command.equals("article write")) {
 				int id = lastArticleId + 1;
 				System.out.printf("제목 : ");
@@ -116,6 +162,7 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
+<<<<<<< HEAD
 				//글 생성 시 날짜, 시간 저장
 				//날짜 시간 저장 Date 객체 활용 -> "년-월-일 시:분:초" 형태로 출력
 				SimpleDateFormat Sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -123,11 +170,15 @@ public class Main {
 				String D_T_log = Sformat.format(now);	//인자로 사용하기위해 D_T_log변수에 현재 날짜, 시간 저장
 				
 				Article article = new Article(id, title, body, D_T_log);
+=======
+				Article article = new Article(id, title, body);
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성 되었습니다\n", id);
 				lastArticleId++;
 			}
+<<<<<<< HEAD
 
 			// 글 삭제
 //			else if () {
@@ -136,6 +187,22 @@ public class Main {
 			else {
 				System.out.println("존재하지 않는 명령어입니다");
 			}
+=======
+			
+			else if(command.equals("article detail " + sN[2])) {
+				Article dGet = articles.get(Stringtoint - 1);
+			}
+			
+			//글 삭제
+			else if(command.equals("article delete " + sN[2])) {
+				Article Del = articles.remove(Stringtoint - 1);
+			}
+			
+			else {
+				System.out.println("존재하지 않는 명령어입니다");
+			}
+
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 		}
 
 		System.out.println("==프로그램 끝==");
@@ -145,6 +212,7 @@ public class Main {
 }
 
 class Article {
+<<<<<<< HEAD
 	int id;	//번호
 	String title;	//제목
 	String body;	//내용
@@ -155,5 +223,15 @@ class Article {
 		this.title = title;
 		this.body = body;
 		this.DateTimelog = DateTimelog;
+=======
+	int id;
+	String title;
+	String body;
+
+	Article(int id, String title, String body) {
+		this.id = id;
+		this.title = title;
+		this.body = body;
+>>>>>>> 3a2ac26d99285b603cbdff8f436c9e885e564eee
 	}
 }
