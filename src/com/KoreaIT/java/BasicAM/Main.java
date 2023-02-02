@@ -75,7 +75,7 @@ public class Main {
 				String checkId = command.substring(15);
 				// command에 저장되어있 는 문자열을 15번째까지 자르고 남은 문자열 저장
 				// "article detail "을 자르고 남은 문자열을 저장
-
+				
 				boolean isID = true; // 남아있는 문자열이 숫자면 true, 문자면 false, 기본값 true
 
 				// 오류 검사 -> 잘못 입력했을때 오류가 실행되지 않기위해 사용
