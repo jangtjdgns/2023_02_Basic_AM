@@ -22,7 +22,6 @@ public class Main {
 		List<Article> articles = new ArrayList<>();
 
 		while (true) {
-
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim(); // trum() -> 양쪽 끝 공백을 없앰
 
