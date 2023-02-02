@@ -61,7 +61,7 @@ public class Main {
 			else if (command.equals("article detail")) {
 				System.out.println("명령어 뒤에 정수를 추가하세요. -> article detail \"int\"");
 			}
-
+			
 			// 제대로 입력시 실행
 			// startsWith(String) 은 boolean형임, 입력한 문자열과 (String)안의
 			// 문자열이 같으면 true를 리턴, 다르면 false 리턴
