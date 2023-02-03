@@ -1,5 +1,3 @@
-//테스트 전용
-
 /* ==프로그램 시작==
  * 명령어) 입력
  * article list
@@ -38,8 +36,8 @@ public class Main {
 			}
 
 			// 명령어 잘못입력시
-			if (command.equals("article detail") || command.equals("article delete")) {
-				System.out.println("명령어 뒤에 정수를 추가하세요. -> article [command] [int]");
+			if (command.equals("article detail") || command.equals("article delete") || command.equals("article modify")) {
+				System.out.println("Add integer! -> article [command] [int]");
 				continue;
 			}
 
