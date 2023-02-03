@@ -1,4 +1,4 @@
-/* ==프로그램 시작==
+/* ==프로그램 시작== 
  * 명령어) 입력
  * article list
  * article write
@@ -6,8 +6,7 @@
  * article delete [int]
  * article modify [int] 추가
  * system exit
- * ==프로그램 종료==
-*/
+ * ==프로그램 종료== */
 
 package com.KoreaIT.java.BasicAM;
 
