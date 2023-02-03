@@ -1,11 +1,15 @@
+//테스트 전용
+
 /* ==프로그램 시작==
  * 명령어) 입력
  * article list
  * article write
  * article detail [int]
  * article delete [int]
+ * article modify [int] 추가
  * system exit
- * ==프로그램 종료== */
+ * ==프로그램 종료==
+*/
 
 package com.KoreaIT.java.BasicAM;
 
@@ -35,7 +39,7 @@ public class Main {
 
 			// 명령어 잘못입력시
 			if (command.equals("article detail") || command.equals("article delete")) {
-				System.out.println("Add int -> article [command] [int]");
+				System.out.println("명령어 뒤에 정수를 추가하세요. -> article [command] [int]");
 				continue;
 			}
 
@@ -70,9 +74,8 @@ public class Main {
 
 				String[] ID = command.split(" ");
 
-				int id = Util.isNum(ID[2]); // 예외처리
+				int id = Util.getStrtoInt(ID[2]);
 				if (id == 0) {
-					System.out.println("error -> article detail [int]");
 					continue;
 				}
 
@@ -90,7 +93,7 @@ public class Main {
 					continue;
 				}
 				System.out.printf("번호 : %d\n", foundArticle.id);
-				System.out.printf("날짜 : %s\n", foundArticle.DateTimelog);
+				System.out.printf("날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
 			}
@@ -115,9 +118,8 @@ public class Main {
 			else if (command.startsWith("article delete ")) {
 				String[] ID = command.split(" ");
 
-				int id = Util.isNum(ID[2]); // 예외처리
+				int id = Util.getStrtoInt(ID[2]);
 				if (id == 0) {
-					System.out.println("error -> article delete [int]");
 					continue;
 				}
 
@@ -138,6 +140,36 @@ public class Main {
 				articles.remove(foundArticle);
 			}
 
+			// 5. 글 수정
+			else if (command.startsWith("article modify ")) {
+				String ID[] = command.split(" ");
+
+				int id = Util.getStrtoInt(ID[2]);
+				if (id == 0) {
+					continue;
+				}
+
+				Article foundArticle = null;
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+				if (foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				System.out.printf("%d번 게시물을 수정합니다.\n", id);
+				System.out.printf("제목 : ");
+				foundArticle.title = sc.nextLine();
+				System.out.printf("내용 : ");
+				foundArticle.body = sc.nextLine();
+				foundArticle.regDate = Util.getNowDateStr() + " (수정)";
+				System.out.println("글이 수정 되었습니다.");
+			}
+
 			else {
 				System.out.println("존재하지 않는 명령어입니다");
 			}
@@ -153,12 +185,12 @@ class Article {
 	int id;
 	String title;
 	String body;
-	String DateTimelog;
+	String regDate;
 
-	Article(int id, String title, String body, String DateTimelog) {
+	Article(int id, String title, String body, String regDate) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.DateTimelog = DateTimelog;
+		this.regDate = regDate;
 	}
 }
