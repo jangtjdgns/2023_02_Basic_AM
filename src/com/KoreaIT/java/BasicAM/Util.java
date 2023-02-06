@@ -6,11 +6,11 @@ import java.util.Date;
 public class Util {
 	/** 현재 날짜 시간 String */
 	public static String getNowDateStr() {
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		Date now = new Date();
 		
-		return sdf1.format(now);
+		return SDF.format(now);
 	}
 
 	/** 정수 변환 예외 처리 Try Catch */
