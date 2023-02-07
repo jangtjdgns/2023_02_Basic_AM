@@ -1,8 +1,7 @@
 /* ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
- * member join 회원가입 기능 구현 완료
- * 회원가입 -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
+ * member join -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
  * article list
  * article write
  * article detail [int]
@@ -17,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.java.BasicAM.Dto.Article;
-import com.KoreaIT.java.BasicAM.Dto.Member;
+import com.KoreaIT.java.BasicAM.dto.Article;
+import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class App {
@@ -59,13 +58,11 @@ public class App {
 				int id = members.size() + 1;
 
 				String loginId = null;
-
-				// 로그인 아이디 중복검사 기능 구현 완료
 				while (true) {
+					Member foundMember = null;
 					System.out.printf("로그인 아이디 : ");
 					loginId = sc.nextLine();
-
-					Member foundMember = null;
+					
 					if (members.size() > 0) {
 						for (Member member : members) {
 							if (loginId.equals(member.loginId)) {
@@ -73,17 +70,16 @@ public class App {
 								break;
 							}
 						}
-						if (foundMember != null) {
-							System.out.println("이미 사용중인 아이디 입니다.");
-							continue;
-						}
 					}
-					break;
+					if (foundMember == null) {
+						break;
+					}
+					System.out.println("이미 사용중인 아이디 입니다.");
+					continue;
 				}
 
 				String loginPw = null;
 				String loginPwConfirm = null;
-
 				while (true) {
 					System.out.printf("로그인 비밀번호 : ");
 					loginPw = sc.nextLine();

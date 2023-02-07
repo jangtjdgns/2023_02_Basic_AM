@@ -1,9 +1,6 @@
-package com.KoreaIT.java.BasicAM.Dto;
+package com.KoreaIT.java.BasicAM.dto;
 
-public class Member {
-	public int id;
-	public String regDate;
-	public String updateDate;
+public class Member extends Dto{
 	public String loginId;
 	public String loginPw;
 	public String name;
