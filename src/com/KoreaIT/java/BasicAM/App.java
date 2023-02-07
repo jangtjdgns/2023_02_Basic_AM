@@ -1,7 +1,8 @@
 /* ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
- * member join 회원가입 기능 구현 중 (비밀번호 재확인 기능 구현완료)
+ * member join 회원가입 기능 구현 완료
+ * 회원가입 -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
  * article list
  * article write
  * article detail [int]
@@ -53,15 +54,36 @@ public class App {
 				break;
 			}
 
-			// 1. 회원가입 (기능 구현 중)
+			// 1. 회원가입
 			if (command.equals("member join")) {
 				int id = members.size() + 1;
-				System.out.printf("로그인 아이디 : ");
-				String loginId = sc.nextLine();
+
+				String loginId = null;
+
+				// 로그인 아이디 중복검사 기능 구현 완료
+				while (true) {
+					System.out.printf("로그인 아이디 : ");
+					loginId = sc.nextLine();
+
+					Member foundMember = null;
+					if (members.size() > 0) {
+						for (Member member : members) {
+							if (loginId.equals(member.loginId)) {
+								foundMember = member;
+								break;
+							}
+						}
+						if (foundMember != null) {
+							System.out.println("이미 사용중인 아이디 입니다.");
+							continue;
+						}
+					}
+					break;
+				}
+
 				String loginPw = null;
 				String loginPwConfirm = null;
 
-				// 비밀번호 재확인 기능 구현 완료
 				while (true) {
 					System.out.printf("로그인 비밀번호 : ");
 					loginPw = sc.nextLine();
@@ -184,12 +206,12 @@ public class App {
 			return b;
 		}
 
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
+		for (Article article : articles) {
 			if (article.id == id) {
 				return b = article;
 			}
 		}
+
 		System.out.printf("%s번 게시물은 존재하지 않습니다.\n", id);
 		return b;
 	}

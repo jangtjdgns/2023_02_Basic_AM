@@ -17,5 +17,6 @@ public class Article {
 			this.title = title;
 			this.body = body;
 			this.regDate = regDate;
+			this.updateDate = updateDate;
 		}
 }
