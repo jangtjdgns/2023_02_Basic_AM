@@ -1,7 +1,7 @@
 /* ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
- * member join 회원가입 기능 추가 예정
+ * member join 회원가입 기능 구현 중 (비밀번호 재확인 기능 구현완료)
  * article list
  * article write
  * article detail [int]
@@ -17,12 +17,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.Dto.Article;
+import com.KoreaIT.java.BasicAM.Dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class App {
 	public static List<Article> articles = new ArrayList<>();
+	public static List<Member> members = new ArrayList<>();
 	public static int lastArticleId = 0;
-	
+
 	public void run() {
 		System.out.println("==프로그램 시작==");
 
@@ -51,28 +53,58 @@ public class App {
 				break;
 			}
 
-			// 1. 게시글 확인
-			if (command.equals("article list")) {
+			// 1. 회원가입 (기능 구현 중)
+			if (command.equals("member join")) {
+				int id = members.size() + 1;
+				System.out.printf("로그인 아이디 : ");
+				String loginId = sc.nextLine();
+				String loginPw = null;
+				String loginPwConfirm = null;
+
+				// 비밀번호 재확인 기능 구현 완료
+				while (true) {
+					System.out.printf("로그인 비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.printf("로그인 비밀번호 : ");
+					loginPwConfirm = sc.nextLine();
+					if (!(loginPw.equals(loginPwConfirm))) {
+						System.out.println("비밀번호를 다시 입력해주세요");
+						continue;
+					}
+					break;
+				}
+
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr());
+				members.add(member);
+
+				System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+			}
+
+			// 2. 게시글 확인
+			else if (command.equals("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 					continue;
 				}
 
-				System.out.println("번호 |     제목     |  조회");
+				System.out.println("번호  |     제목     |  조회");
 				String tempTitle = null;
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 					if (article.title.length() > 6) {
 						tempTitle = article.title.substring(0, 6);
-						System.out.printf("  %d  |  %4s  |  %2s\n", article.id, tempTitle + " ...", article.hit);
+						System.out.printf("  %2d  |  %4s  |  %2d\n", article.id, tempTitle + " ...", article.hit);
 						continue;
 					}
-					System.out.printf("  %d  |  %6s      |  %2s\n", article.id, article.title, article.hit);
+					System.out.printf("  %2d  |  %6s      |  %2d\n", article.id, article.title, article.hit);
 				}
 			}
 
-			// 2. 글 생성
+			// 3. 글 생성
 			else if (command.equals("article write")) {
 				int id = lastArticleId + 1;
 				String regDate = Util.getNowDateStr();
@@ -81,14 +113,14 @@ public class App {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body, regDate);
+				Article article = new Article(id, title, body, regDate, regDate);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성 되었습니다\n", id);
 				lastArticleId++;
 			}
 
-			// 3. 글 조회
+			// 4. 글 조회
 			else if (command.startsWith("article detail ")) {
 				Article foundArticle = null;
 				foundArticle = check(command, foundArticle);
@@ -103,7 +135,7 @@ public class App {
 				}
 			}
 
-			// 4. 글 삭제
+			// 5. 글 삭제
 			else if (command.startsWith("article delete ")) {
 				Article foundArticle = null;
 				foundArticle = check(command, foundArticle);
@@ -113,7 +145,7 @@ public class App {
 				}
 			}
 
-			// 5. 글 수정
+			// 6. 글 수정
 			else if (command.startsWith("article modify ")) {
 				Article foundArticle = null;
 				foundArticle = check(command, foundArticle);
@@ -125,7 +157,7 @@ public class App {
 					foundArticle.body = sc.nextLine();
 					foundArticle.updateDate = Util.getNowDateStr();
 					System.out.println("글이 수정 되었습니다.");
-				}	
+				}
 			}
 
 			else {
@@ -140,15 +172,9 @@ public class App {
 
 	public static void makeTestDate() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
-		for (int i = 0; i < 3; i++) {
-			int id = lastArticleId + 1;
-			String regDate = Util.getNowDateStr();
-			String title = "t" + Integer.toString(i + 1);
-			String body = "t" + Integer.toString(i + 1);
-			Article article = new Article(id, title, body, regDate);
-			articles.add(article);
-			lastArticleId++;
-		}
+		articles.add(new Article(lastArticleId++ + 1, 11, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+		articles.add(new Article(lastArticleId++ + 1, 22, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
+		articles.add(new Article(lastArticleId++ + 1, 33, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 
 	public static Article check(String a, Article b) {
