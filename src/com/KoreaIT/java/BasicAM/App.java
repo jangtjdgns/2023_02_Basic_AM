@@ -1,12 +1,14 @@
-/* ==프로그램 시작==
+/* ++MemberController와 ArticleController를 도입하고 기능을 실행하는 역할을 controller로 이전
+ * ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
- * member join -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
- * article list
- * article write
- * article detail [int]
- * article delete [int]
- * article modify [int]
+ * member join -> MemberController로 이전
+ * -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
+ * article list -> ArticleController로 이전
+ * article write -> ArticleController로 이전
+ * article detail [int] -> ArticleController로 이전
+ * article delete [int] -> ArticleController로 이전
+ * article modify [int] -> ArticleController로 이전
  * system exit
  * ==프로그램 종료== */
 
@@ -16,14 +18,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BasicAM.controller.ArticleController;
+import com.KoreaIT.java.BasicAM.controller.Controller;
+import com.KoreaIT.java.BasicAM.controller.MemberController;
 import com.KoreaIT.java.BasicAM.dto.Article;
 import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class App {
-	public static List<Article> articles = new ArrayList<>();
-	public static List<Member> members = new ArrayList<>();
-	public static int lastArticleId = 0;
+	public static List<Article> articles;
+	public static List<Member> members;
+	public static int lastArticleId;
+	static {
+		members = new ArrayList<>();
+		articles = new ArrayList<>();
+		lastArticleId = 0;
+	}
 
 	public void run() {
 		System.out.println("==프로그램 시작==");
@@ -31,6 +41,9 @@ public class App {
 		makeTestDate();
 
 		Scanner sc = new Scanner(System.in);
+
+		MemberController memberController = new MemberController(members, sc);
+		ArticleController articleController = new ArticleController(articles, sc);
 
 		while (true) {
 			System.out.printf("명령어 ) ");
@@ -53,134 +66,24 @@ public class App {
 				break;
 			}
 
-			// 1. 회원가입
-			if (command.equals("member join")) {
-				int id = members.size() + 1;
+			String[] commandBits = command.split(" ");
+			String controllerName = commandBits[0];
+			String actionMethodName = commandBits[1];
 
-				String loginId = null;
-				while (true) {
-					Member foundMember = null;
-					System.out.printf("로그인 아이디 : ");
-					loginId = sc.nextLine();
-					
-					if (members.size() > 0) {
-						for (Member member : members) {
-							if (loginId.equals(member.loginId)) {
-								foundMember = member;
-								break;
-							}
-						}
-					}
-					if (foundMember == null) {
-						break;
-					}
-					System.out.println("이미 사용중인 아이디 입니다.");
-					continue;
-				}
-
-				String loginPw = null;
-				String loginPwConfirm = null;
-				while (true) {
-					System.out.printf("로그인 비밀번호 : ");
-					loginPw = sc.nextLine();
-					System.out.printf("로그인 비밀번호 : ");
-					loginPwConfirm = sc.nextLine();
-					if (!(loginPw.equals(loginPwConfirm))) {
-						System.out.println("비밀번호를 다시 입력해주세요");
-						continue;
-					}
-					break;
-				}
-
-				System.out.printf("이름 : ");
-				String name = sc.nextLine();
-
-				Member member = new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr());
-				members.add(member);
-
-				System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+			if (commandBits.length == 1) {
+				System.out.println("명령어 확인 후 다시 입력해주세요");
 			}
 
-			// 2. 게시글 확인
-			else if (command.equals("article list")) {
-				if (articles.size() == 0) {
-					System.out.println("게시글이 없습니다");
-					continue;
-				}
-
-				System.out.println("번호  |     제목     |  조회");
-				String tempTitle = null;
-
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
-					if (article.title.length() > 6) {
-						tempTitle = article.title.substring(0, 6);
-						System.out.printf("  %2d  |  %4s  |  %2d\n", article.id, tempTitle + " ...", article.hit);
-						continue;
-					}
-					System.out.printf("  %2d  |  %6s      |  %2d\n", article.id, article.title, article.hit);
-				}
+			Controller controller = null;
+			if (controllerName.equals("member")) {
+				controller = memberController;
+			} else if (controllerName.equals("article")) {
+				controller = articleController;
+			} else {
+				System.out.println("존재하지 않는 명령어 입니다.");
+				continue;
 			}
-
-			// 3. 글 생성
-			else if (command.equals("article write")) {
-				int id = lastArticleId + 1;
-				String regDate = Util.getNowDateStr();
-				System.out.printf("제목 : ");
-				String title = sc.nextLine();
-				System.out.printf("내용 : ");
-				String body = sc.nextLine();
-
-				Article article = new Article(id, title, body, regDate, regDate);
-				articles.add(article);
-
-				System.out.printf("%d번 글이 생성 되었습니다\n", id);
-				lastArticleId++;
-			}
-
-			// 4. 글 조회
-			else if (command.startsWith("article detail ")) {
-				Article foundArticle = null;
-				foundArticle = check(command, foundArticle);
-				if (foundArticle != null) {
-					foundArticle.hit++;
-					System.out.printf("번호 : %d\n", foundArticle.id);
-					System.out.printf("조회 : %d\n", foundArticle.hit);
-					System.out.printf("작성 날짜 : %s\n", foundArticle.regDate);
-					System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
-					System.out.printf("제목 : %s\n", foundArticle.title);
-					System.out.printf("내용 : %s\n", foundArticle.body);
-				}
-			}
-
-			// 5. 글 삭제
-			else if (command.startsWith("article delete ")) {
-				Article foundArticle = null;
-				foundArticle = check(command, foundArticle);
-				if (foundArticle != null) {
-					System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
-					articles.remove(foundArticle);
-				}
-			}
-
-			// 6. 글 수정
-			else if (command.startsWith("article modify ")) {
-				Article foundArticle = null;
-				foundArticle = check(command, foundArticle);
-				if (foundArticle != null) {
-					System.out.printf("%d번 게시물을 수정합니다.\n", foundArticle.id);
-					System.out.printf("제목 : ");
-					foundArticle.title = sc.nextLine();
-					System.out.printf("내용 : ");
-					foundArticle.body = sc.nextLine();
-					foundArticle.updateDate = Util.getNowDateStr();
-					System.out.println("글이 수정 되었습니다.");
-				}
-			}
-
-			else {
-				System.out.println("존재하지 않는 명령어입니다");
-			}
+			controller.doAction(command, actionMethodName, lastArticleId);
 		}
 
 		System.out.println("==프로그램 끝==");
@@ -193,22 +96,5 @@ public class App {
 		articles.add(new Article(lastArticleId++ + 1, 11, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
 		articles.add(new Article(lastArticleId++ + 1, 22, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
 		articles.add(new Article(lastArticleId++ + 1, 33, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
-	}
-
-	public static Article check(String a, Article b) {
-		String[] commandBits = a.split(" ");
-		int id = Util.getStrtoInt(commandBits[2]);
-		if (id == 0) {
-			return b;
-		}
-
-		for (Article article : articles) {
-			if (article.id == id) {
-				return b = article;
-			}
-		}
-
-		System.out.printf("%s번 게시물은 존재하지 않습니다.\n", id);
-		return b;
 	}
 }
