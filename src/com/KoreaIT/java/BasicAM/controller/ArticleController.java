@@ -115,10 +115,17 @@ public class ArticleController extends Controller {
 		}
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
+		
+		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
+			System.out.println("해당 글에 권한이 없습니다.");
+			return;
+		}
+		
 		if (foundArticle != null) {
 			System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
 			articles.remove(foundArticle);
 		}
+		
 	}
 
 	private void doModify() {
@@ -128,6 +135,12 @@ public class ArticleController extends Controller {
 		}
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
+		
+		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
+			System.out.println("해당 글에 권한이 없습니다.");
+			return;
+		}
+		
 		if (foundArticle != null) {
 			System.out.printf("%d번 게시물을 수정합니다.\n", foundArticle.id);
 			System.out.printf("제목 : ");

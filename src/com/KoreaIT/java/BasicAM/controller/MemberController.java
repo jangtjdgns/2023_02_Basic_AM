@@ -117,10 +117,6 @@ public class MemberController extends Controller {
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
 	}
 
-	public boolean isLogined() {
-		return loginedMember != null;
-	}
-
 	private Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 		if (index == -1) {
