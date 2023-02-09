@@ -1,9 +1,10 @@
-/* ++로그인 기능 구현
+/* ++로그인 상태 체크, 로그아웃 기능 구현
  *  ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
  * member join
- * member login 추가
+ * member login
+ * member logout 추가
  * article list
  * article write
  * article detail [int]
@@ -45,12 +46,12 @@ public class App {
 			}
 
 			String[] commandBits = command.split(" ");
-			
+
 			if (commandBits.length == 1) {
 				System.out.println("명령어 확인 후 다시 입력해주세요");
 				continue;
 			}
-			
+
 			String controllerName = commandBits[0];
 			String actionMethodName = commandBits[1];
 

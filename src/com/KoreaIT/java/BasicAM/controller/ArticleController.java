@@ -46,6 +46,9 @@ public class ArticleController extends Controller {
 		case "modify":
 			doModify();
 			break;
+		default:
+			System.out.println("존재하지 않는 명령어 입니다.");
+			break;
 		}
 	}
 
@@ -124,7 +127,7 @@ public class ArticleController extends Controller {
 
 	private Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");
-		if(commandBits.length == 2){
+		if (commandBits.length == 2) {
 			System.out.println("Add integer! -> article [command] [int]");
 			return b;
 		}
