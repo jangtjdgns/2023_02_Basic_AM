@@ -12,7 +12,6 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
-	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -39,6 +38,9 @@ public class MemberController extends Controller {
 			break;
 		case "logout":
 			doLogout();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
 	}
@@ -78,7 +80,6 @@ public class MemberController extends Controller {
 		System.out.println("로그인 되었습니다.");
 	}
 
-	// 회원가입
 	private void doJoin() {
 		int id = members.size() + 1;
 		String loginId = null;

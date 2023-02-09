@@ -1,10 +1,10 @@
-/* ++로그인 상태 체크, 로그아웃 기능 구현
+/* ++게시물 작성시 작성자의 정보를 게시글에 저장
  *  ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
  * member join
  * member login
- * member logout 추가
+ * member logout
  * article list
  * article write
  * article detail [int]
