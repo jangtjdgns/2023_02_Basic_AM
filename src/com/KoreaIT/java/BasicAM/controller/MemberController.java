@@ -33,28 +33,42 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+		case "login":
+			doLogin();
+			break;
 		}
+	}
+
+	private void doLogin() {
+		while (true) {
+			System.out.printf("로그인 아이디 : ");
+			String loginId = sc.nextLine();
+			System.out.printf("로그인 비밀번호 : ");
+			String loginPw = sc.nextLine();
+
+			Member member = getMemberByLoginId(loginId);
+			if (member == null) {
+				System.out.println("해당 회원은 존재하지 않습니다");
+				continue;
+			}
+			if (!(member.loginPw.equals(loginPw))) {
+				System.out.println("비밀번호를 다시 입력해주세요");
+				continue;
+			}
+			break;
+		}
+		System.out.println("로그인 되었습니다.");
 	}
 
 	// 회원가입
 	private void doJoin() {
 		int id = members.size() + 1;
-
 		String loginId = null;
 		while (true) {
-			Member foundMember = null;
 			System.out.printf("로그인 아이디 : ");
 			loginId = sc.nextLine();
 
-			if (members.size() > 0) {
-				for (Member member : members) {
-					if (loginId.equals(member.loginId)) {
-						foundMember = member;
-						break;
-					}
-				}
-			}
-			if (foundMember == null) {
+			if (isJoinableLoginId(loginId) == false) {
 				break;
 			}
 			System.out.println("이미 사용중인 아이디 입니다.");
@@ -82,6 +96,32 @@ public class MemberController extends Controller {
 		members.add(member);
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+	}
 
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+		if (index == -1) {
+			return null;
+		}
+		return members.get(index);
+	}
+
+	private boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+		if (index == -1) {
+			return false;
+		}
+		return true;
+	}
+
+	private int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
 	}
 }

@@ -1,8 +1,9 @@
-/* ++members, articles, makeTestData를 각각의 컨트롤러로 이전
+/* ++로그인 기능 구현
  *  ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
  * member join
+ * member login 추가
  * article list
  * article write
  * article detail [int]
@@ -34,24 +35,22 @@ public class App {
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim();
 
-			// 입력 없을때
 			if (command.length() == 0) {
 				System.out.println("명령어를 입력해주세요");
 				continue;
 			}
 
-			// 명령어 잘못입력시
-			if (command.equals("article detail") || command.equals("article delete") || command.equals("article modify")) {
-				System.out.println("Add integer! -> article [command] [int]");
-				continue;
-			}
-
-			// 프로그램 종료
 			if (command.equals("system exit")) {
 				break;
 			}
 
 			String[] commandBits = command.split(" ");
+			
+			if (commandBits.length == 1) {
+				System.out.println("명령어 확인 후 다시 입력해주세요");
+				continue;
+			}
+			
 			String controllerName = commandBits[0];
 			String actionMethodName = commandBits[1];
 

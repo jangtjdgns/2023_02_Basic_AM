@@ -124,6 +124,10 @@ public class ArticleController extends Controller {
 
 	private Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");
+		if(commandBits.length == 2){
+			System.out.println("Add integer! -> article [command] [int]");
+			return b;
+		}
 		int id = Util.getStrtoInt(commandBits[2]);
 		if (id == 0) {
 			return b;
