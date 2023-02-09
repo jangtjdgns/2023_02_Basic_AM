@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BasicAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,17 +12,22 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
-	public int lastArticleId;
 
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
 
-	public void doAction(String command, String actionMethodName, int lastArticleId) {
+	public void makeTestDate() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
+		members.add(new Member(1, "admin", "admin", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
+		members.add(new Member(2, "test1", "test1", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
+		members.add(new Member(3, "test2", "test2", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
+	}
+
+	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
-		this.lastArticleId = lastArticleId;
 
 		switch (actionMethodName) {
 		case "join":
@@ -31,7 +37,7 @@ public class MemberController extends Controller {
 	}
 
 	// 회원가입
-	public void doJoin() {
+	private void doJoin() {
 		int id = members.size() + 1;
 
 		String loginId = null;

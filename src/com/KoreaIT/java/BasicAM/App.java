@@ -1,49 +1,34 @@
-/* ++MemberController와 ArticleController를 도입하고 기능을 실행하는 역할을 controller로 이전
- * ==프로그램 시작==
+/* ++members, articles, makeTestData를 각각의 컨트롤러로 이전
+ *  ==프로그램 시작==
  * test 게시물 3개 생성 
  * 명령어) 입력
- * member join -> MemberController로 이전
- * -> 다른 기능들 추후 구현 예정(입력없을때, 특수문자, detail시 작성자 추가 등)
- * article list -> ArticleController로 이전
- * article write -> ArticleController로 이전
- * article detail [int] -> ArticleController로 이전
- * article delete [int] -> ArticleController로 이전
- * article modify [int] -> ArticleController로 이전
+ * member join
+ * article list
+ * article write
+ * article detail [int]
+ * article delete [int]
+ * article modify [int]
  * system exit
  * ==프로그램 종료== */
 
 package com.KoreaIT.java.BasicAM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
 import com.KoreaIT.java.BasicAM.controller.ArticleController;
 import com.KoreaIT.java.BasicAM.controller.Controller;
 import com.KoreaIT.java.BasicAM.controller.MemberController;
-import com.KoreaIT.java.BasicAM.dto.Article;
-import com.KoreaIT.java.BasicAM.dto.Member;
-import com.KoreaIT.java.BasicAM.util.Util;
 
 public class App {
-	public static List<Article> articles;
-	public static List<Member> members;
-	public static int lastArticleId;
-	static {
-		members = new ArrayList<>();
-		articles = new ArrayList<>();
-		lastArticleId = 0;
-	}
 
 	public void run() {
 		System.out.println("==프로그램 시작==");
 
-		makeTestDate();
-
 		Scanner sc = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
+		memberController.makeTestDate();
+		articleController.makeTestDate();
 
 		while (true) {
 			System.out.printf("명령어 ) ");
@@ -83,18 +68,11 @@ public class App {
 				System.out.println("존재하지 않는 명령어 입니다.");
 				continue;
 			}
-			controller.doAction(command, actionMethodName, lastArticleId);
+			controller.doAction(command, actionMethodName);
 		}
 
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
-	}
-
-	public static void makeTestDate() {
-		System.out.println("테스트를 위한 데이터를 생성합니다.");
-		articles.add(new Article(lastArticleId++ + 1, 11, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
-		articles.add(new Article(lastArticleId++ + 1, 22, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
-		articles.add(new Article(lastArticleId++ + 1, 33, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 }

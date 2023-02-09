@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BasicAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,17 +12,23 @@ public class ArticleController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
-	public int lastArticleId;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
+		;
 		this.sc = sc;
 	}
 
-	public void doAction(String command, String actionMethodName, int lastArticleId) {
+	public void makeTestDate() {
+		System.out.println("테스트를 위한 글 데이터를 생성합니다");
+		articles.add(new Article(lastId++ + 1, 11, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+		articles.add(new Article(lastId++ + 1, 22, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
+		articles.add(new Article(lastId++ + 1, 33, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+	}
+
+	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
-		this.lastArticleId = lastArticleId;
 
 		switch (actionMethodName) {
 		case "list":
@@ -42,7 +49,7 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public void showList() {
+	private void showList() {
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
@@ -62,8 +69,8 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public void doWrite() {
-		int id = lastArticleId + 1;
+	private void doWrite() {
+		int id = lastId + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -74,10 +81,10 @@ public class ArticleController extends Controller {
 		articles.add(article);
 
 		System.out.printf("%d번 글이 생성 되었습니다\n", id);
-		lastArticleId++;
+		lastId++;
 	}
 
-	public void showDetail() {
+	private void showDetail() {
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
 		if (foundArticle != null) {
@@ -88,11 +95,10 @@ public class ArticleController extends Controller {
 			System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
 			System.out.printf("제목 : %s\n", foundArticle.title);
 			System.out.printf("내용 : %s\n", foundArticle.body);
-
 		}
 	}
 
-	public void doDelete() {
+	private void doDelete() {
 		// 5. 글 삭제
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
@@ -102,7 +108,7 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public void doModify() {
+	private void doModify() {
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
 		if (foundArticle != null) {
@@ -116,7 +122,7 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public Article getArticle(String a, Article b) {
+	private Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");
 		int id = Util.getStrtoInt(commandBits[2]);
 		if (id == 0) {
