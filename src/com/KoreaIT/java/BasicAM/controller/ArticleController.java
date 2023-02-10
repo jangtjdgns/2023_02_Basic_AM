@@ -1,9 +1,9 @@
 package com.KoreaIT.java.BasicAM.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BasicAM.dao.ArticleDao;
 import com.KoreaIT.java.BasicAM.dto.Article;
 import com.KoreaIT.java.BasicAM.util.Util;
 
@@ -14,8 +14,8 @@ public class ArticleController extends Controller {
 	private String actionMethodName;
 
 	public ArticleController(Scanner sc) {
-		this.articles = new ArrayList<>();
-		;
+		ArticleDao articleDao = new ArticleDao();
+		this.articles = articleDao.articles;
 		this.sc = sc;
 	}
 
