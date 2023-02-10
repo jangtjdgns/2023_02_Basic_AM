@@ -40,11 +40,11 @@ public class ArticleController extends Controller {
 		case "detail":
 			showDetail();
 			break;
-		case "delete":
-			doDelete();
-			break;
 		case "modify":
 			doModify();
+			break;
+		case "delete":
+			doDelete();
 			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
@@ -75,10 +75,6 @@ public class ArticleController extends Controller {
 	}
 
 	private void doWrite() {
-		if (loginedMember == null) {
-			System.out.println("로그인 후 이용해 주세요");
-			return;
-		}
 		int id = lastId + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
@@ -107,32 +103,8 @@ public class ArticleController extends Controller {
 			System.out.printf("내용 : %s\n", foundArticle.body);
 		}
 	}
-
-	private void doDelete() {
-		if (loginedMember == null) {
-			System.out.println("로그인 후 이용해 주세요");
-			return;
-		}
-		Article foundArticle = null;
-		foundArticle = getArticle(command, foundArticle);
-		
-		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
-			System.out.println("해당 글에 권한이 없습니다.");
-			return;
-		}
-		
-		if (foundArticle != null) {
-			System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
-			articles.remove(foundArticle);
-		}
-		
-	}
-
+	
 	private void doModify() {
-		if (loginedMember == null) {
-			System.out.println("로그인 후 이용해 주세요");
-			return;
-		}
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
 		
@@ -152,13 +124,29 @@ public class ArticleController extends Controller {
 		}
 	}
 
+	private void doDelete() {
+		Article foundArticle = null;
+		foundArticle = getArticle(command, foundArticle);
+		
+		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
+			System.out.println("해당 글에 권한이 없습니다.");
+			return;
+		}
+		
+		if (foundArticle != null) {
+			System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
+			articles.remove(foundArticle);
+		}
+		
+	}
+
 	private Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");
 		if (commandBits.length == 2) {
 			System.out.println("Add integer! -> article [command] [int]");
 			return b;
 		}
-		int id = Util.getStrtoInt(commandBits[2]);
+		int id = getStrtoInt(commandBits[2]);
 		if (id == 0) {
 			return b;
 		}
@@ -171,5 +159,17 @@ public class ArticleController extends Controller {
 
 		System.out.printf("%s번 게시물은 존재하지 않습니다.\n", id);
 		return b;
+	}
+	
+	/** 정수 변환 예외 처리 Try Catch */
+	private static int getStrtoInt(String str) {
+		int id = 0;
+
+		try {
+			return id = Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			System.out.println("Not integer! -> article [command] [int]");
+			return id;
+		}
 	}
 }

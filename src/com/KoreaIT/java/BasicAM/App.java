@@ -1,6 +1,4 @@
-/* ++해당 글의 작성자만 수정/삭제 기능 구현 (권한체크)
- *  ==프로그램 시작==
- * 명령어) 입력
+/* 
  * member join
  * member login
  * member logout
@@ -9,12 +7,12 @@
  * article detail [int]
  * article delete [int]
  * article modify [int]
- * system exit
- * ==프로그램 종료== */
+ * system exit */
 
 package com.KoreaIT.java.BasicAM;
 
 import java.util.Scanner;
+
 import com.KoreaIT.java.BasicAM.controller.ArticleController;
 import com.KoreaIT.java.BasicAM.controller.Controller;
 import com.KoreaIT.java.BasicAM.controller.MemberController;
@@ -67,6 +65,27 @@ public class App {
 				System.out.println("존재하지 않는 명령어 입니다.");
 				continue;
 			}
+
+			String actionName = controllerName + " " + actionMethodName;
+			switch (actionName) {
+			case "article write":
+			case "article modify":
+			case "article delete":
+			case "member logout":
+				if (Controller.isLogined() == false) {
+					System.out.println("로그인 후 이용해 주세요");
+					continue;
+				}
+				break;
+			case "member login":
+			case "member join":
+				if (Controller.isLogined()) {
+					System.out.println("로그아웃 후 이용해 주세요");
+					continue;
+				}
+				break;
+			}
+
 			controller.doAction(command, actionMethodName);
 		}
 
