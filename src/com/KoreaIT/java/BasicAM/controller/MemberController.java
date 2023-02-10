@@ -3,6 +3,7 @@ package com.KoreaIT.java.BasicAM.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BasicAM.container.Container;
 import com.KoreaIT.java.BasicAM.dao.MemberDao;
 import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
@@ -15,15 +16,15 @@ public class MemberController extends Controller {
 
 	public MemberController(Scanner sc) {
 		MemberDao memberDao = new MemberDao();
-		this.members = memberDao.members;
+		this.members = Container.memberDao.members;
 		this.sc = sc;
 	}
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-		members.add(new Member(1, "admin", "admin", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
-		members.add(new Member(2, "test1", "test1", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
-		members.add(new Member(3, "test2", "test2", "admin", Util.getNowDateStr(), Util.getNowDateStr()));
+		members.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
+		members.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
+		members.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 
 	public void doAction(String command, String actionMethodName) {

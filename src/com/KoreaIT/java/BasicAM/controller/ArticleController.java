@@ -3,8 +3,10 @@ package com.KoreaIT.java.BasicAM.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BasicAM.container.Container;
 import com.KoreaIT.java.BasicAM.dao.ArticleDao;
 import com.KoreaIT.java.BasicAM.dto.Article;
+import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -15,7 +17,7 @@ public class ArticleController extends Controller {
 
 	public ArticleController(Scanner sc) {
 		ArticleDao articleDao = new ArticleDao();
-		this.articles = articleDao.articles;
+		this.articles = Container.articleDao.articles;
 		this.sc = sc;
 	}
 
@@ -63,14 +65,22 @@ public class ArticleController extends Controller {
 
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			Article article = articles.get(i);
+
+			String writeName = null;
+			List<Member> members = Container.memberDao.members;
+			for (Member member : members) {
+				if (article.memberId == member.id) {
+					writeName = member.name;
+					break;
+				}
+			}
+
 			if (article.title.length() > 6) {
 				tempTitle = article.title.substring(0, 6);
-				System.out.printf("  %2d  |  %4s  |  %3d   |  %3d\n", article.id, tempTitle + " ...", article.hit,
-						article.memberId);
+				System.out.printf("  %2d  |  %4s  |  %3d   |  %3s\n", article.id, tempTitle + " ...", article.hit, writeName);
 				continue;
 			}
-			System.out.printf("  %2d  |   %4s    |  %3d   |  %3d\n", article.id, article.title, article.hit,
-					article.memberId);
+			System.out.printf("  %2d  |   %4s    |  %3d   |  %3s\n", article.id, article.title, article.hit, writeName);
 		}
 	}
 
@@ -92,27 +102,36 @@ public class ArticleController extends Controller {
 	private void showDetail() {
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
+
 		if (foundArticle != null) {
+			String writeName = null;
+			List<Member> members = Container.memberDao.members;
+			for (Member member : members) {
+				if (foundArticle.memberId == member.id) {
+					writeName = member.name;
+					break;
+				}
+			}
 			foundArticle.hit++;
 			System.out.printf("번호 : %d\n", foundArticle.id);
 			System.out.printf("조회 : %d\n", foundArticle.hit);
 			System.out.printf("작성 날짜 : %s\n", foundArticle.regDate);
 			System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
-			System.out.printf("작성자 : %s\n", foundArticle.memberId);
+			System.out.printf("작성자 : %s\n", writeName);
 			System.out.printf("제목 : %s\n", foundArticle.title);
 			System.out.printf("내용 : %s\n", foundArticle.body);
 		}
 	}
-	
+
 	private void doModify() {
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
-		
-		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
+
+		if (foundArticle != null && foundArticle.memberId != loginedMember.id) {
 			System.out.println("해당 글에 권한이 없습니다.");
 			return;
 		}
-		
+
 		if (foundArticle != null) {
 			System.out.printf("%d번 게시물을 수정합니다.\n", foundArticle.id);
 			System.out.printf("제목 : ");
@@ -127,17 +146,17 @@ public class ArticleController extends Controller {
 	private void doDelete() {
 		Article foundArticle = null;
 		foundArticle = getArticle(command, foundArticle);
-		
-		if(foundArticle != null && foundArticle.memberId != loginedMember.id) {
+
+		if (foundArticle != null && foundArticle.memberId != loginedMember.id) {
 			System.out.println("해당 글에 권한이 없습니다.");
 			return;
 		}
-		
+
 		if (foundArticle != null) {
 			System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
 			articles.remove(foundArticle);
 		}
-		
+
 	}
 
 	private Article getArticle(String a, Article b) {
@@ -160,7 +179,7 @@ public class ArticleController extends Controller {
 		System.out.printf("%s번 게시물은 존재하지 않습니다.\n", id);
 		return b;
 	}
-	
+
 	/** 정수 변환 예외 처리 Try Catch */
 	private static int getStrtoInt(String str) {
 		int id = 0;

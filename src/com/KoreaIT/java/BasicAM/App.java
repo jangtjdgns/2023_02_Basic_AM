@@ -1,4 +1,4 @@
-/* ++DAO 추가 (기능 구현x)
+/* ++게시물 list, detail 시 작성자의 이름이 나오도록 수정
  * member join
  * member login
  * member logout
