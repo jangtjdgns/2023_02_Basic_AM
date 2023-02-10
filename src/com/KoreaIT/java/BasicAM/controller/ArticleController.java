@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.container.Container;
-import com.KoreaIT.java.BasicAM.dao.ArticleDao;
 import com.KoreaIT.java.BasicAM.dto.Article;
-import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -16,16 +14,18 @@ public class ArticleController extends Controller {
 	private String actionMethodName;
 
 	public ArticleController(Scanner sc) {
-		ArticleDao articleDao = new ArticleDao();
-		this.articles = Container.articleDao.articles;
+		this.articles = Container.articleService.getArticles();
 		this.sc = sc;
 	}
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 글 데이터를 생성합니다");
-		articles.add(new Article(lastId++ + 1, 11, 1, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
-		articles.add(new Article(lastId++ + 1, 22, 2, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
-		articles.add(new Article(lastId++ + 1, 33, 3, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.articleService
+				.add(new Article(lastId++ + 1, 11, 1, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.articleService
+				.add(new Article(lastId++ + 1, 22, 2, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.articleService
+				.add(new Article(lastId++ + 1, 33, 3, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -65,15 +65,7 @@ public class ArticleController extends Controller {
 
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			Article article = articles.get(i);
-
-			String writeName = null;
-			List<Member> members = Container.memberDao.members;
-			for (Member member : members) {
-				if (article.memberId == member.id) {
-					writeName = member.name;
-					break;
-				}
-			}
+			String writeName = Container.articleService.foundNameInMember(article);
 
 			if (article.title.length() > 6) {
 				tempTitle = article.title.substring(0, 6);
@@ -101,17 +93,11 @@ public class ArticleController extends Controller {
 
 	private void showDetail() {
 		Article foundArticle = null;
-		foundArticle = getArticle(command, foundArticle);
+		foundArticle = Container.articleService.getArticle(command, foundArticle);
 
 		if (foundArticle != null) {
-			String writeName = null;
-			List<Member> members = Container.memberDao.members;
-			for (Member member : members) {
-				if (foundArticle.memberId == member.id) {
-					writeName = member.name;
-					break;
-				}
-			}
+			String writeName = Container.articleService.foundNameInMember(foundArticle);
+
 			foundArticle.hit++;
 			System.out.printf("번호 : %d\n", foundArticle.id);
 			System.out.printf("조회 : %d\n", foundArticle.hit);
@@ -125,7 +111,7 @@ public class ArticleController extends Controller {
 
 	private void doModify() {
 		Article foundArticle = null;
-		foundArticle = getArticle(command, foundArticle);
+		foundArticle = Container.articleService.getArticle(command, foundArticle);
 
 		if (foundArticle != null && foundArticle.memberId != loginedMember.id) {
 			System.out.println("해당 글에 권한이 없습니다.");
@@ -145,7 +131,7 @@ public class ArticleController extends Controller {
 
 	private void doDelete() {
 		Article foundArticle = null;
-		foundArticle = getArticle(command, foundArticle);
+		foundArticle = Container.articleService.getArticle(command, foundArticle);
 
 		if (foundArticle != null && foundArticle.memberId != loginedMember.id) {
 			System.out.println("해당 글에 권한이 없습니다.");
@@ -157,38 +143,5 @@ public class ArticleController extends Controller {
 			articles.remove(foundArticle);
 		}
 
-	}
-
-	private Article getArticle(String a, Article b) {
-		String[] commandBits = a.split(" ");
-		if (commandBits.length == 2) {
-			System.out.println("Add integer! -> article [command] [int]");
-			return b;
-		}
-		int id = getStrtoInt(commandBits[2]);
-		if (id == 0) {
-			return b;
-		}
-
-		for (Article article : articles) {
-			if (article.id == id) {
-				return b = article;
-			}
-		}
-
-		System.out.printf("%s번 게시물은 존재하지 않습니다.\n", id);
-		return b;
-	}
-
-	/** 정수 변환 예외 처리 Try Catch */
-	private static int getStrtoInt(String str) {
-		int id = 0;
-
-		try {
-			return id = Integer.parseInt(str);
-		} catch (NumberFormatException e) {
-			System.out.println("Not integer! -> article [command] [int]");
-			return id;
-		}
 	}
 }

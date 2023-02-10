@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.container.Container;
-import com.KoreaIT.java.BasicAM.dao.MemberDao;
 import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
@@ -15,16 +14,15 @@ public class MemberController extends Controller {
 	private String actionMethodName;
 
 	public MemberController(Scanner sc) {
-		MemberDao memberDao = new MemberDao();
-		this.members = Container.memberDao.members;
+		this.members = Container.memberService.getMembers();
 		this.sc = sc;
 	}
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-		members.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
-		members.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
-		members.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -59,7 +57,7 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 비밀번호 : ");
 			String loginPw = sc.nextLine();
 
-			Member member = getMemberByLoginId(loginId);
+			Member member = Container.memberService.getMemberByLoginId(loginId);
 			if (member == null) {
 				System.out.println("해당 회원은 존재하지 않습니다");
 				continue;
@@ -81,7 +79,7 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 아이디 : ");
 			loginId = sc.nextLine();
 
-			if (isJoinableLoginId(loginId) == false) {
+			if (Container.memberService.isJoinableLoginId(loginId) == false) {
 				break;
 			}
 			System.out.println("이미 사용중인 아이디 입니다.");
@@ -109,32 +107,5 @@ public class MemberController extends Controller {
 		members.add(member);
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
-	}
-
-	private Member getMemberByLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-		if (index == -1) {
-			return null;
-		}
-		return members.get(index);
-	}
-
-	private boolean isJoinableLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-		if (index == -1) {
-			return false;
-		}
-		return true;
-	}
-
-	private int getMemberIndexByLoginId(String loginId) {
-		int i = 0;
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
 	}
 }
