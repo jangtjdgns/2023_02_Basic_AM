@@ -18,13 +18,6 @@ public class MemberController extends Controller {
 		this.sc = sc;
 	}
 
-	public void makeTestDate() {
-		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-		Container.memberService.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
-	}
-
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
@@ -53,9 +46,15 @@ public class MemberController extends Controller {
 	private void doLogin() {
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
-			String loginId = sc.nextLine();
+			String loginId = sc.nextLine().trim();
 			System.out.printf("로그인 비밀번호 : ");
-			String loginPw = sc.nextLine();
+			String loginPw = sc.nextLine().trim();
+
+			if (Container.memberService.isEmptyMemberInformation(loginId)
+					|| Container.memberService.isEmptyMemberInformation(loginPw)) {
+				System.out.println("아이디는 필수정보 입니다.");
+				continue;
+			}
 
 			Member member = Container.memberService.getMemberByLoginId(loginId);
 			if (member == null) {
@@ -69,30 +68,40 @@ public class MemberController extends Controller {
 			loginedMember = member;
 			break;
 		}
-		System.out.println("로그인 되었습니다.");
+		System.out.printf("로그인 되었습니다. %s님 환영합니다!\n", loginedMember.name);
 	}
 
 	private void doJoin() {
 		int id = members.size() + 1;
 		String loginId = null;
 		while (true) {
-			System.out.printf("로그인 아이디 : ");
-			loginId = sc.nextLine();
+			System.out.printf("아이디 : ");
+			loginId = sc.nextLine().trim();
 
-			if (Container.memberService.isJoinableLoginId(loginId) == false) {
-				break;
+			if (Container.memberService.isEmptyMemberInformation(loginId)) {
+				System.out.println("아이디는 필수정보 입니다.");
+				continue;
 			}
-			System.out.println("이미 사용중인 아이디 입니다.");
-			continue;
+
+			if (Container.memberService.isJoinableLoginId(loginId)) {
+				System.out.println("이미 사용중인 아이디 입니다.");
+				continue;
+			}
+			break;
 		}
 
 		String loginPw = null;
 		String loginPwConfirm = null;
 		while (true) {
-			System.out.printf("로그인 비밀번호 : ");
-			loginPw = sc.nextLine();
-			System.out.printf("로그인 비밀번호 : ");
-			loginPwConfirm = sc.nextLine();
+			System.out.printf("비밀번호 : ");
+			loginPw = sc.nextLine().trim();
+			System.out.printf("비밀번호 재확인 : ");
+			loginPwConfirm = sc.nextLine().trim();
+			if (Container.memberService.isEmptyMemberInformation(loginPw)
+					|| Container.memberService.isEmptyMemberInformation(loginPwConfirm)) {
+				System.out.println("비밀번호는 필수정보 입니다.");
+				continue;
+			}
 			if (!(loginPw.equals(loginPwConfirm))) {
 				System.out.println("비밀번호를 다시 입력해주세요");
 				continue;
@@ -100,12 +109,27 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		System.out.printf("이름 : ");
-		String name = sc.nextLine();
+		String name = null;
+		while (true) {
+			System.out.printf("이름 : ");
+			name = sc.nextLine().trim();
+			if (Container.memberService.isEmptyMemberInformation(name)) {
+				System.out.println("이름은 필수정보 입니다.");
+				continue;
+			}
+			break;
+		}
 
 		Member member = new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr());
 		members.add(member);
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+	}
+
+	public void makeTestDate() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
+		Container.memberService.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 }

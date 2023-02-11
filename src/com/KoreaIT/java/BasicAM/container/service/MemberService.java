@@ -22,10 +22,14 @@ public class MemberService {
 	}
 
 	public Member getMemberByLoginId(String loginId) {
-		return getMemberByLoginId(loginId);
+		return memberDao.getMemberByLoginId(loginId);
 	}
 
 	public boolean isJoinableLoginId(String loginId) {
-		return isJoinableLoginId(loginId);
+		return memberDao.isJoinableLoginId(loginId);
+	}
+
+	public boolean isEmptyMemberInformation(String blank) {
+		return memberDao.isEmptyMemberInformation(blank);
 	}
 }

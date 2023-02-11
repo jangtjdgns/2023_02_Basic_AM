@@ -29,4 +29,7 @@ public class ArticleService {
 		return articleDao.foundNameInMember(article);
 	}
 
+	public boolean isEmptyArticle(String blank) {
+		return articleDao.isEmptyArticle(blank);
+	}
 }

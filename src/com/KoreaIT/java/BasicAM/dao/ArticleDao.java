@@ -59,4 +59,10 @@ public class ArticleDao {
 		}
 	}
 
+	public boolean isEmptyArticle(String blank) {
+		if (blank == "") {
+			return true;
+		}
+		return false;
+	}
 }

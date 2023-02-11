@@ -1,4 +1,4 @@
-/* ++Article service , Member service 추가
+/* ++회원가입, 로그인, 게시글 작성, 수정 시 필수정보 입력시에 넘어가도록 수정
  * member join
  * member login
  * member logout
@@ -6,8 +6,7 @@
  * article write
  * article detail [int]
  * article delete [int]
- * article modify [int]
- * system exit */
+ * article modify [int] */
 
 package com.KoreaIT.java.BasicAM;
 
@@ -51,10 +50,6 @@ public class App {
 
 			String controllerName = commandBits[0];
 			String actionMethodName = commandBits[1];
-
-			if (commandBits.length == 1) {
-				System.out.println("명령어 확인 후 다시 입력해주세요");
-			}
 
 			Controller controller = null;
 			if (controllerName.equals("member")) {
