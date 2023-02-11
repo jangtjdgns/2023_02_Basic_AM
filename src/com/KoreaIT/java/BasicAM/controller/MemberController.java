@@ -12,6 +12,7 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
+	private int loginCount = 0;
 
 	public MemberController(Scanner sc) {
 		this.members = Container.memberService.getMembers();
@@ -45,6 +46,11 @@ public class MemberController extends Controller {
 
 	private void doLogin() {
 		while (true) {
+			if(loginCount == 5) {
+				System.out.println("로그인 시도 횟수를 초과하였습니다.");
+				loginCount = 0;
+				return;
+			}
 			System.out.printf("로그인 아이디 : ");
 			String loginId = sc.nextLine().trim();
 			System.out.printf("로그인 비밀번호 : ");
@@ -53,19 +59,23 @@ public class MemberController extends Controller {
 			if (Container.memberService.isEmptyMemberInformation(loginId)
 					|| Container.memberService.isEmptyMemberInformation(loginPw)) {
 				System.out.println("아이디는 필수정보 입니다.");
+				loginCount++;
 				continue;
 			}
 
 			Member member = Container.memberService.getMemberByLoginId(loginId);
 			if (member == null) {
 				System.out.println("해당 회원은 존재하지 않습니다");
+				loginCount++;
 				continue;
 			}
 			if (!(member.loginPw.equals(loginPw))) {
 				System.out.println("비밀번호를 다시 입력해주세요");
+				loginCount++;
 				continue;
 			}
 			loginedMember = member;
+			loginCount = 0;
 			break;
 		}
 		System.out.printf("로그인 되었습니다. %s님 환영합니다!\n", loginedMember.name);

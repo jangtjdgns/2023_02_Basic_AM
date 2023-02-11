@@ -1,4 +1,4 @@
-/* ++회원가입, 로그인, 게시글 작성, 수정 시 필수정보 입력시에 넘어가도록 수정
+/* ++로그인 시도 횟수 제한(5회)
  * member join
  * member login
  * member logout
