@@ -1,4 +1,4 @@
-/* ++로그인 시도 횟수 제한(5회)
+/* ++article list에 검색기능 추가
  * member join
  * member login
  * member logout

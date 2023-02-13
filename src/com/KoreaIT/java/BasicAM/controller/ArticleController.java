@@ -51,20 +51,32 @@ public class ArticleController extends Controller {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
+		System.out.println("원하는 게시물의 제목을 검색하세요");
+		System.out.println("게시글 모두 보기 : Enter Click");
+		System.out.printf("검색 ) ");
+		String search = sc.nextLine().trim();
 
 		System.out.println(" 번호 |   제 목   |  조회  | 작성자");
 		String tempTitle = null;
-
+		Article article = null;
+		String writeName = null;
+		
 		for (int i = articles.size() - 1; i >= 0; i--) {
-			Article article = articles.get(i);
-			String writeName = Container.articleService.foundNameInMember(article);
-
-			if (article.title.length() > 6) {
-				tempTitle = article.title.substring(0, 6);
-				System.out.printf("  %2d  |  %4s  |  %3d   |  %3s\n", article.id, tempTitle + " ...", article.hit, writeName);
-				continue;
+			article = articles.get(i);
+			writeName = Container.articleService.foundNameInMember(article);
+			
+			if (article.title.contains(search)) {
+				if (article.title.length() > 6) {
+					tempTitle = article.title.substring(0, 6);
+					System.out.printf("  %2d  |  %4s  |  %3d   |  %3s\n", article.id, tempTitle + " ...", article.hit, writeName);
+					continue;
+				}
+				System.out.printf("  %2d  |   %4s    |  %3d   |  %3s\n", article.id, article.title, article.hit, writeName);
 			}
-			System.out.printf("  %2d  |   %4s    |  %3d   |  %3s\n", article.id, article.title, article.hit, writeName);
+		}
+		
+		if(!(article.title.contains(search))){
+			System.out.println("해당 게시물이 없습니다.");
 		}
 	}
 
