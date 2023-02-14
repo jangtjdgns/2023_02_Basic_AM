@@ -33,9 +33,43 @@ public class MemberController extends Controller {
 		case "logout":
 			doLogout();
 			break;
+		case "delete":
+			doDelete();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
+		}
+	}
+
+	private void doDelete() {
+		System.out.println("계정 삭제를 위한 필수정보를 입력해주세요.");
+
+		System.out.printf("이름 : ");
+		String name = sc.nextLine().trim();
+		System.out.printf("아이디 : ");
+		String loginId = sc.nextLine().trim();
+		System.out.printf("비밀번호 : ");
+		String loginPw = sc.nextLine().trim();
+
+		Member member = Container.memberService.getMemberByLoginId(loginId);
+		if (!(member.name.equals(name))) {
+			System.out.println("없는 이름입니다.");
+			return;
+		}
+		if (!(member.loginId.equals(loginId)) && !(member.loginPw.equals(loginPw))) {
+			System.out.println("아이디와 비밀번호가 일치하지 않습니다.");
+			return;
+		}
+
+		System.out.println("정말 삭제하시겠습니까? y | n");
+		char YorN = sc.nextLine().charAt(0);
+		if (YorN == 'y' || YorN == 'Y') {
+			System.out.println("계정이 삭제되었습니다.");
+			Container.memberService.remove(member);
+			loginedMember = null;
+		} else if (YorN == 'n' || YorN == 'N') {
+			System.out.println("계정 삭제를 취소합니다.");
 		}
 	}
 
@@ -46,7 +80,7 @@ public class MemberController extends Controller {
 
 	private void doLogin() {
 		while (true) {
-			if(loginCount == 5) {
+			if (loginCount == 5) {
 				System.out.println("로그인 시도 횟수를 초과하였습니다.");
 				loginCount = 0;
 				return;
@@ -130,8 +164,7 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		Member member = new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr());
-		members.add(member);
+		Container.memberService.add(new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr()));
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
 	}

@@ -1,7 +1,8 @@
-/* ++article list에 검색기능 추가
+/* ++회원 삭제 기능 구현 -> 닉네임, 아이디, 비밀번호 일치 시 삭제가능 하도록 구현
  * member join
  * member login
  * member logout
+ * member delete 추가
  * article list
  * article write
  * article detail [int]
@@ -67,6 +68,7 @@ public class App {
 			case "article modify":
 			case "article delete":
 			case "member logout":
+			case "member delete":
 				if (Controller.isLogined() == false) {
 					System.out.println("로그인 후 이용해 주세요");
 					continue;

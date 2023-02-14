@@ -17,6 +17,10 @@ public class ArticleDao {
 	public void add(Article article) {
 		articles.add(article);
 	}
+	
+	public void remove(Article foundArticle) {
+		articles.remove(foundArticle);
+	}
 
 	public Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");

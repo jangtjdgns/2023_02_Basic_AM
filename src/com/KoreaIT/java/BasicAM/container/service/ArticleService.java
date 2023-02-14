@@ -16,6 +16,10 @@ public class ArticleService {
 	public void add(Article article) {
 		articleDao.add(article);
 	}
+	
+	public void remove(Article foundArticle) {
+		articleDao.remove(foundArticle);
+	}
 
 	public Article getArticle(String command, Article foundArticle) {
 		return articleDao.getArticle(command, foundArticle);

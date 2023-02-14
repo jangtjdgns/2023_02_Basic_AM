@@ -21,6 +21,10 @@ public class MemberService {
 		memberDao.add(member);
 	}
 
+	public void remove(Member member) {
+		memberDao.remove(member);
+	}
+
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);
 	}

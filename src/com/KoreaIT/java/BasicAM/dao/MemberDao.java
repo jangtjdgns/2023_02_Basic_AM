@@ -16,6 +16,10 @@ public class MemberDao {
 		members.add(member);
 	}
 
+	public void remove(Member member) {
+		members.remove(member);
+	}
+
 	public Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 		if (index == -1) {

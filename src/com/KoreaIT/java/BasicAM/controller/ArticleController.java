@@ -60,11 +60,11 @@ public class ArticleController extends Controller {
 		String tempTitle = null;
 		Article article = null;
 		String writeName = null;
-		
+
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			article = articles.get(i);
 			writeName = Container.articleService.foundNameInMember(article);
-			
+
 			if (article.title.contains(search)) {
 				if (article.title.length() > 6) {
 					tempTitle = article.title.substring(0, 6);
@@ -74,8 +74,8 @@ public class ArticleController extends Controller {
 				System.out.printf("  %2d  |   %4s    |  %3d   |  %3s\n", article.id, article.title, article.hit, writeName);
 			}
 		}
-		
-		if(!(article.title.contains(search))){
+
+		if (!(article.title.contains(search))) {
 			System.out.println("해당 게시물이 없습니다.");
 		}
 	}
@@ -104,8 +104,8 @@ public class ArticleController extends Controller {
 			break;
 		}
 
-		Article article = new Article(id, loginedMember.id, title, body, Util.getNowDateStr(), Util.getNowDateStr());
-		articles.add(article);
+		Container.articleService
+				.add(new Article(id, loginedMember.id, title, body, Util.getNowDateStr(), Util.getNowDateStr()));
 
 		System.out.printf("%d번 글이 생성 되었습니다\n", id);
 		lastArticleId++;
@@ -174,7 +174,7 @@ public class ArticleController extends Controller {
 
 		if (foundArticle != null) {
 			System.out.printf("%d번 게시물이 삭제 되었습니다.\n", foundArticle.id);
-			articles.remove(foundArticle);
+			Container.articleService.remove(foundArticle);
 		}
 	}
 
