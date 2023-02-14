@@ -36,4 +36,8 @@ public class MemberService {
 	public boolean isEmptyMemberInformation(String blank) {
 		return memberDao.isEmptyMemberInformation(blank);
 	}
+	
+	public boolean isEmptyMember(String blank) {
+		return memberDao.isEmptyMember(blank);
+	}
 }

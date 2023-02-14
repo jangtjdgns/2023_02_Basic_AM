@@ -1,8 +1,9 @@
-/* ++회원 삭제 기능 구현 -> 닉네임, 아이디, 비밀번호 일치 시 삭제가능 하도록 구현
+/* ++삭제된 회원이 있는경우 리스트 시 제목, 내용, 작성자를 삭제로 변경, member delete 기능 수정
+ * +member delete 후 member join시 member id를 재사용 하지않도록 구현 할 예정
  * member join
  * member login
  * member logout
- * member delete 추가
+ * member delete
  * article list
  * article write
  * article detail [int]

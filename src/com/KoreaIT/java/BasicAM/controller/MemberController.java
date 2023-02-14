@@ -43,33 +43,72 @@ public class MemberController extends Controller {
 	}
 
 	private void doDelete() {
-		System.out.println("계정 삭제를 위한 필수정보를 입력해주세요.");
+		System.out.println("본인 계정 삭제를 위한 필수정보를 입력해주세요.");
 
-		System.out.printf("이름 : ");
-		String name = sc.nextLine().trim();
-		System.out.printf("아이디 : ");
-		String loginId = sc.nextLine().trim();
-		System.out.printf("비밀번호 : ");
-		String loginPw = sc.nextLine().trim();
-
-		Member member = Container.memberService.getMemberByLoginId(loginId);
-		if (!(member.name.equals(name))) {
-			System.out.println("없는 이름입니다.");
-			return;
+		String name = null;
+		String loginId = null;
+		String loginPw = null;
+		
+		while(true) {
+			System.out.printf("이름 : ");
+			name = sc.nextLine().trim();
+			if (Container.memberService.isEmptyMember(name)) {
+				System.out.println("이름을 입력하세요.");
+				continue;
+			}
+			if (!(loginedMember.name.equals(name))) {
+				System.out.println("본인 계정의 이름과 일치하지 않습니다.");
+				continue;
+			}
+			break;
 		}
-		if (!(member.loginId.equals(loginId)) && !(member.loginPw.equals(loginPw))) {
-			System.out.println("아이디와 비밀번호가 일치하지 않습니다.");
-			return;
+
+		while(true) {
+			System.out.printf("아이디 : ");
+			loginId = sc.nextLine().trim();
+			if (Container.memberService.isEmptyMember(loginId)) {
+				System.out.println("아이디를 입력하세요.");
+				continue;
+			}
+			if (!(loginedMember.loginId.equals(loginId))) {
+				System.out.println("아이디가 일치하지 않습니다.");
+				continue;
+			}
+			break;
 		}
 
-		System.out.println("정말 삭제하시겠습니까? y | n");
-		char YorN = sc.nextLine().charAt(0);
-		if (YorN == 'y' || YorN == 'Y') {
-			System.out.println("계정이 삭제되었습니다.");
-			Container.memberService.remove(member);
-			loginedMember = null;
-		} else if (YorN == 'n' || YorN == 'N') {
-			System.out.println("계정 삭제를 취소합니다.");
+		while(true) {
+			System.out.printf("비밀번호 : ");
+			loginPw = sc.nextLine().trim();
+			if (Container.memberService.isEmptyMember(loginPw)) {
+				System.out.println("비밀번호를 입력하세요.");
+				continue;
+			}
+			if (!(loginedMember.loginPw.equals(loginPw))) {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+				continue;
+			}
+			break;
+		}
+		
+		while(true) {
+			System.out.println("정말 삭제하시겠습니까? yes | no");
+			String YorN = sc.nextLine().trim();
+			if(Container.memberService.isEmptyMember(YorN)) {
+				System.out.println("yes 또는 no을 입력하세요.");
+				continue;
+			}
+			if (YorN.equals("yes") || YorN.equals("Yes")) {
+				System.out.println("계정이 삭제되었습니다.");
+				Container.memberService.remove(Container.memberService.getMemberByLoginId(loginId));
+				loginedMember = null;
+			} else if (YorN.equals("no") || YorN.equals("No")) {
+				System.out.println("계정 삭제를 취소합니다.");
+			} else {
+				System.out.println("yes 또는 no을 입력하세요.");
+				continue;
+			}
+			break;
 		}
 	}
 

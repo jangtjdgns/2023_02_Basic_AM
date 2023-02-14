@@ -53,4 +53,11 @@ public class MemberDao {
 		}
 		return false;
 	}
+
+	public boolean isEmptyMember(String blank) {
+		if (blank == "") {
+			return true;
+		}
+		return false;
+	}
 }
