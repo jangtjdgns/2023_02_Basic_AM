@@ -12,10 +12,12 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
+	private int lastMemberId;
 	private int loginCount = 0;
 
 	public MemberController(Scanner sc) {
 		this.members = Container.memberService.getMembers();
+		this.lastMemberId = 0;
 		this.sc = sc;
 	}
 
@@ -48,8 +50,8 @@ public class MemberController extends Controller {
 		String name = null;
 		String loginId = null;
 		String loginPw = null;
-		
-		while(true) {
+
+		while (true) {
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
 			if (Container.memberService.isEmptyMember(name)) {
@@ -63,7 +65,7 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		while(true) {
+		while (true) {
 			System.out.printf("아이디 : ");
 			loginId = sc.nextLine().trim();
 			if (Container.memberService.isEmptyMember(loginId)) {
@@ -77,7 +79,7 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		while(true) {
+		while (true) {
 			System.out.printf("비밀번호 : ");
 			loginPw = sc.nextLine().trim();
 			if (Container.memberService.isEmptyMember(loginPw)) {
@@ -90,11 +92,11 @@ public class MemberController extends Controller {
 			}
 			break;
 		}
-		
-		while(true) {
+
+		while (true) {
 			System.out.println("정말 삭제하시겠습니까? yes | no");
 			String YorN = sc.nextLine().trim();
-			if(Container.memberService.isEmptyMember(YorN)) {
+			if (Container.memberService.isEmptyMember(YorN)) {
 				System.out.println("yes 또는 no을 입력하세요.");
 				continue;
 			}
@@ -155,7 +157,7 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
-		int id = members.size() + 1;
+		int id = lastMemberId++ + 1;
 		String loginId = null;
 		while (true) {
 			System.out.printf("아이디 : ");
@@ -210,8 +212,11 @@ public class MemberController extends Controller {
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-		Container.memberService.add(new Member(1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService.add(new Member(2, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService.add(new Member(3, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService
+				.add(new Member(lastMemberId++ + 1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService
+				.add(new Member(lastMemberId++ + 1, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
+		Container.memberService
+				.add(new Member(lastMemberId++ + 1, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
 	}
 }

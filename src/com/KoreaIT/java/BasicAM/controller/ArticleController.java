@@ -64,7 +64,7 @@ public class ArticleController extends Controller {
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			article = articles.get(i);
 			writeName = Container.articleService.foundNameInMember(article);
-			if(writeName == null) {
+			if (writeName == null) {
 				article.title = "X";
 				article.hit = 0;
 				writeName = "탈퇴한 회원";

@@ -1,5 +1,6 @@
-/* ++삭제된 회원이 있는경우 리스트 시 제목, 내용, 작성자를 삭제로 변경, member delete 기능 수정
- * +member delete 후 member join시 member id를 재사용 하지않도록 구현 할 예정
+/* ++member delete 후 member join시 member id를 재사용 하지않도록 기능 구현
+ * + ?, help 명령어 추가 -> 명령어 종류와 사용방법 등을 확인 가능하도록 구현 예정
+ * + ArticleDao 내의 getArticle 수정 예정
  * member join
  * member login
  * member logout
