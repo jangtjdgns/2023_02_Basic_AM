@@ -1,6 +1,6 @@
-/* ++member delete 후 member join시 member id를 재사용 하지않도록 기능 구현
- * + ?, help 명령어 추가 -> 명령어 종류와 사용방법 등을 확인 가능하도록 구현 예정
+/* ++?, help 명령어 추가 -> 명령어 종류와 사용방법 등을 확인 가능하도록 구현
  * + ArticleDao 내의 getArticle 수정 예정
+ * ? | help 추가
  * member join
  * member login
  * member logout
@@ -31,6 +31,8 @@ public class App {
 		memberController.makeTestDate();
 		articleController.makeTestDate();
 
+		System.out.println("게시글 명령어 보기 (? or help)");
+		
 		while (true) {
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim();
@@ -44,6 +46,36 @@ public class App {
 				break;
 			}
 
+			if(command.equals("?") || command.equals("help")) {
+				System.out.println("+------------------[참고 사항]-------------------+");
+				System.out.println("|                                                |");
+				System.out.println("|           원할한 명령어 사용을 위해            |");
+				System.out.println("|         회원가입을 먼저 진행 해주시고          |");
+				System.out.println("|     로그인 후 사용하시는것을 추천드립니다.     |");
+				System.out.println("| *로그인을 하지 않을 경우 제약사항이 많습니다.* |");
+				System.out.println("|                                                |");
+				System.out.println("+-----------------[기본 명령어]------------------+");
+				System.out.println("|                                                |");
+				System.out.println("|  게시글 목록  |  article list                  |");
+				System.out.println("|  게시글 보기  |  article detail [게시글 번호]  |");
+				System.out.println("|                                                |");
+				System.out.println("+---------[로그인 후 이용가능한 명령어]----------+");
+				System.out.println("|                                                |");
+				System.out.println("|  게시글 쓰기  |  article write                 |");
+				System.out.println("|  게시글 삭제  |  article delete [게시글 번호]  |");
+				System.out.println("|  게시글 수정  |  article modify [게시글 번호]  |");
+				System.out.println("|  로 그 아 웃  |  member logout                 |");
+				System.out.println("|  계 정 삭 제  |  member delete                 |");
+				System.out.println("|                                                |");
+				System.out.println("+--------[로그아웃 후 이용가능한 명령어]---------+");
+				System.out.println("|                                                |");
+				System.out.println("|  로  그  인   |  member login                  |");
+				System.out.println("|  회 원 가 입  |  member join                   |");
+				System.out.println("|                                                |");
+				System.out.println("+------------------------------------------------+");
+				continue;
+			}
+			
 			String[] commandBits = command.split(" ");
 
 			if (commandBits.length == 1) {
