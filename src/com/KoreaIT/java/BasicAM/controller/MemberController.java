@@ -1,6 +1,5 @@
 package com.KoreaIT.java.BasicAM.controller;
 
-import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.container.Container;
@@ -8,7 +7,6 @@ import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class MemberController extends Controller {
-	private List<Member> members;
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
@@ -16,7 +14,6 @@ public class MemberController extends Controller {
 	private int loginCount = 0;
 
 	public MemberController(Scanner sc) {
-		this.members = Container.memberService.getMembers();
 		this.lastMemberId = 0;
 		this.sc = sc;
 	}
@@ -194,12 +191,18 @@ public class MemberController extends Controller {
 			break;
 		}
 
+		// 동일한 닉네임을 사용해도 될까 고민중
 		String name = null;
 		while (true) {
+			System.out.println("* 영어 8자리 이하");
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
 			if (Container.memberService.isEmptyMemberInformation(name)) {
 				System.out.println("이름은 필수정보 입니다.");
+				continue;
+			}
+			if (name.length() > 8) {
+				System.out.println("이름은 8자리 이하만 가능합니다.");
 				continue;
 			}
 			break;
@@ -212,11 +215,9 @@ public class MemberController extends Controller {
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
-		Container.memberService
-				.add(new Member(lastMemberId++ + 1, "admin", "admin", "관리자", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService
-				.add(new Member(lastMemberId++ + 1, "test1", "test1", "회원1", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.memberService
-				.add(new Member(lastMemberId++ + 1, "test2", "test2", "회원2", Util.getNowDateStr(), Util.getNowDateStr()));
+		for (int i = 1; i <= maxTestId; i++) {
+			Container.memberService.add(
+					new Member(lastMemberId++ + 1, "t" + i, "t" + i, "TestId" + i, Util.getNowDateStr(), Util.getNowDateStr()));
+		}
 	}
 }

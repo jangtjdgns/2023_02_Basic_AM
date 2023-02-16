@@ -56,7 +56,8 @@ public class ArticleController extends Controller {
 		System.out.printf("검색 ) ");
 		String search = sc.nextLine().trim();
 
-		System.out.println(" 번호 |   제 목   |  조회  | 작성자");
+		System.out.println(" 번호 |   제목   |  조회  |  작 성 자  |   게     시     일");
+		System.out.println("------+----------+--------+------------+----------------------");
 		String tempTitle = null;
 		Article article = null;
 		String writeName = null;
@@ -67,18 +68,21 @@ public class ArticleController extends Controller {
 			if (writeName == null) {
 				article.title = "X";
 				article.hit = 0;
-				writeName = "탈퇴한 회원";
+				writeName = "X";
 				Container.articleService.remove(article);
 			}
 			if (article.title.contains(search)) {
 				if (article.title.length() > 6) {
-					tempTitle = article.title.substring(0, 6);
-					System.out.printf("  %2d  |  %4s  |  %3d   |  %3s\n", article.id, tempTitle + " ...", article.hit, writeName);
+					tempTitle = article.title.substring(0, 4) + "...";
+					System.out.printf("  %2d  |  %6s |  %3d   |  %8s  |  %s\n", article.id, tempTitle, article.hit, writeName,
+							article.regDate);
 					continue;
 				}
-				System.out.printf("  %2d  |   %4s    |  %3d   |  %3s\n", article.id, article.title, article.hit, writeName);
+				System.out.printf("  %2d  |  %6s  |  %3d   |  %8s  |  %s\n", article.id, article.title, article.hit, writeName,
+						article.regDate);
 			}
 		}
+		System.out.println("------+----------+--------+------------+----------------------");
 
 		if (!(article.title.contains(search))) {
 			System.out.println("해당 게시물이 없습니다.");
@@ -185,11 +189,9 @@ public class ArticleController extends Controller {
 
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 글 데이터를 생성합니다");
-		Container.articleService
-				.add(new Article(lastArticleId++ + 1, 11, 1, "t1", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.articleService
-				.add(new Article(lastArticleId++ + 1, 22, 2, "t2", "test2", Util.getNowDateStr(), Util.getNowDateStr()));
-		Container.articleService
-				.add(new Article(lastArticleId++ + 1, 33, 3, "t3", "test1", Util.getNowDateStr(), Util.getNowDateStr()));
+		for (int i = 1; i <= maxTestId; i++) {
+			Container.articleService.add(
+					new Article(lastArticleId++ + 1, i * 11, i, "t" + i, "test" + i, Util.getNowDateStr(), Util.getNowDateStr()));
+		}
 	}
 }

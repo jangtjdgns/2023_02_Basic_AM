@@ -1,4 +1,4 @@
-/* ++?, help 명령어 추가 -> 명령어 종류와 사용방법 등을 확인 가능하도록 구현
+/* ++article list 보기 목록 수정, 이름 최대길이 제한, Members
  * + ArticleDao 내의 getArticle 수정 예정
  * ? | help 추가
  * member join
@@ -32,7 +32,7 @@ public class App {
 		articleController.makeTestDate();
 
 		System.out.println("게시글 명령어 보기 (? or help)");
-		
+
 		while (true) {
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim();
@@ -46,36 +46,37 @@ public class App {
 				break;
 			}
 
-			if(command.equals("?") || command.equals("help")) {
-				System.out.println("+------------------[참고 사항]-------------------+");
-				System.out.println("|                                                |");
-				System.out.println("|           원할한 명령어 사용을 위해            |");
-				System.out.println("|         회원가입을 먼저 진행 해주시고          |");
-				System.out.println("|     로그인 후 사용하시는것을 추천드립니다.     |");
-				System.out.println("| *로그인을 하지 않을 경우 제약사항이 많습니다.* |");
-				System.out.println("|                                                |");
-				System.out.println("+-----------------[기본 명령어]------------------+");
-				System.out.println("|                                                |");
-				System.out.println("|  게시글 목록  |  article list                  |");
-				System.out.println("|  게시글 보기  |  article detail [게시글 번호]  |");
-				System.out.println("|                                                |");
-				System.out.println("+---------[로그인 후 이용가능한 명령어]----------+");
-				System.out.println("|                                                |");
-				System.out.println("|  게시글 쓰기  |  article write                 |");
-				System.out.println("|  게시글 삭제  |  article delete [게시글 번호]  |");
-				System.out.println("|  게시글 수정  |  article modify [게시글 번호]  |");
-				System.out.println("|  로 그 아 웃  |  member logout                 |");
-				System.out.println("|  계 정 삭 제  |  member delete                 |");
-				System.out.println("|                                                |");
-				System.out.println("+--------[로그아웃 후 이용가능한 명령어]---------+");
-				System.out.println("|                                                |");
-				System.out.println("|  로  그  인   |  member login                  |");
-				System.out.println("|  회 원 가 입  |  member join                   |");
-				System.out.println("|                                                |");
-				System.out.println("+------------------------------------------------+");
+			if (command.equals("?") || command.equals("help")) {
+				System.out.printf(
+						"+------------------[참고 사항]-------------------+\n"
+					+ "|                                                |\n"
+					+ "|           원할한 명령어 사용을 위해            |\n"
+					+ "|         회원가입을 먼저 진행 해주시고          |\n"
+					+ "|     로그인 후 사용하시는것을 추천드립니다.     |\n"
+					+ "| *로그인을 하지 않을 경우 제약사항이 많습니다.* |\n"
+					+ "|                                                |\n"
+					+ "+-----------------[기본 명령어]------------------+\n"
+					+ "|                                                |\n"
+					+ "|  게시글 목록  |  article list                  |\n"
+					+ "|  게시글 보기  |  article detail [게시글 번호]  |\n"
+					+ "|                                                |\n"
+					+ "+---------[로그인 후 이용가능한 명령어]----------+\n"
+					+ "|                                                |\n"
+					+ "|  게시글 쓰기  |  article write                 |\n"
+					+ "|  게시글 삭제  |  article delete [게시글 번호]  |\n"
+					+ "|  게시글 수정  |  article modify [게시글 번호]  |\n"
+					+ "|  로 그 아 웃  |  member logout                 |\n"
+					+ "|  계 정 삭 제  |  member delete                 |\n"
+					+ "|                                                |\n"
+					+ "+--------[로그아웃 후 이용가능한 명령어]---------+\n"
+					+ "|                                                |\n"
+					+ "|  로  그  인   |  member login                  |\n"
+					+ "|  회 원 가 입  |  member join                   |\n"
+					+ "|                                                |\n"
+					+ "+------------------------------------------------+\n");
 				continue;
 			}
-			
+
 			String[] commandBits = command.split(" ");
 
 			if (commandBits.length == 1) {

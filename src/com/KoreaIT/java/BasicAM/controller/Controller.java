@@ -6,6 +6,8 @@ public abstract class Controller {
 
 	public static Member loginedMember;
 
+	public static int maxTestId = 10;
+	
 	public abstract void doAction(String command, String actionMethodName);
 
 	public abstract void makeTestDate();
