@@ -56,8 +56,9 @@ public class ArticleController extends Controller {
 		System.out.printf("검색 ) ");
 		String search = sc.nextLine().trim();
 
-		System.out.println(" 번호 |   제목   |  조회  |  작 성 자  |   게     시     일");
-		System.out.println("------+----------+--------+------------+----------------------");
+		System.out.println("+------+---------------+--------+------------+-----------------------+");
+		System.out.println("| 번호 |   제     목   |  조회  |  작 성 자  |   게     시     일    |");
+		System.out.println("+------+---------------+--------+------------+-----------------------+");
 		String tempTitle = null;
 		Article article = null;
 		String writeName = null;
@@ -72,17 +73,17 @@ public class ArticleController extends Controller {
 				Container.articleService.remove(article);
 			}
 			if (article.title.contains(search)) {
-				if (article.title.length() > 6) {
-					tempTitle = article.title.substring(0, 4) + "...";
-					System.out.printf("  %2d  |  %6s |  %3d   |  %8s  |  %s\n", article.id, tempTitle, article.hit, writeName,
-							article.regDate);
+				if (article.title.length() > 10) {
+					tempTitle = article.title.substring(0, 7) + "...";
+					System.out.printf("|  %2d  |   %10s  |  %3d   |  %8s  |  %s  |\n", article.id, tempTitle, article.hit,
+							writeName, article.regDate);
 					continue;
 				}
-				System.out.printf("  %2d  |  %6s  |  %3d   |  %8s  |  %s\n", article.id, article.title, article.hit, writeName,
-						article.regDate);
+				System.out.printf("|  %2d  |   %10s  |  %3d   |  %8s  |  %s  |\n", article.id, article.title, article.hit,
+						writeName, article.regDate);
 			}
 		}
-		System.out.println("------+----------+--------+------------+----------------------");
+		System.out.println("+------+---------------+--------+------------+-----------------------+");
 
 		if (!(article.title.contains(search))) {
 			System.out.println("해당 게시물이 없습니다.");
@@ -131,7 +132,9 @@ public class ArticleController extends Controller {
 			System.out.printf("번호 : %d\n", foundArticle.id);
 			System.out.printf("조회 : %d\n", foundArticle.hit);
 			System.out.printf("작성 날짜 : %s\n", foundArticle.regDate);
-			System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
+			if (foundArticle.updateDate != null) {
+				System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
+			}
 			System.out.printf("작성자 : %s\n", writeName);
 			System.out.printf("제목 : %s\n", foundArticle.title);
 			System.out.printf("내용 : %s\n", foundArticle.body);
@@ -190,8 +193,8 @@ public class ArticleController extends Controller {
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 글 데이터를 생성합니다");
 		for (int i = 1; i <= maxTestId; i++) {
-			Container.articleService.add(
-					new Article(lastArticleId++ + 1, i * 11, i, "t" + i, "test" + i, Util.getNowDateStr(), Util.getNowDateStr()));
+			Container.articleService.add(new Article(lastArticleId++ + 1, i * 11, i, "t" + i * i * i * i * i * i * i * i * i,
+					"test" + i, Util.getNowDateStr(), null));
 		}
 	}
 }

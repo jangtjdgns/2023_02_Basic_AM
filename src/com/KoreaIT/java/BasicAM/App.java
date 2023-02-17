@@ -1,4 +1,6 @@
-/* ++article list 보기 목록 수정, 이름 최대길이 제한, Members
+/* ++ article detail 시 modify 했을 경우에만 수정 날짜 보이도록 수정
+ * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
+ * + list 시 보여지는 제목 길이 수정
  * + ArticleDao 내의 getArticle 수정 예정
  * ? | help 추가
  * member join
