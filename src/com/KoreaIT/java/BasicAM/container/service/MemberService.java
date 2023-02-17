@@ -32,12 +32,4 @@ public class MemberService {
 	public boolean isJoinableLoginId(String loginId) {
 		return memberDao.isJoinableLoginId(loginId);
 	}
-
-	public boolean isEmptyMemberInformation(String blank) {
-		return memberDao.isEmptyMemberInformation(blank);
-	}
-	
-	public boolean isEmptyMember(String blank) {
-		return memberDao.isEmptyMember(blank);
-	}
 }

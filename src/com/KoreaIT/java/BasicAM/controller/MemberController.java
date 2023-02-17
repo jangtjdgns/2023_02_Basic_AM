@@ -51,7 +51,7 @@ public class MemberController extends Controller {
 		while (true) {
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMember(name)) {
+			if (name.equals("")) {
 				System.out.println("이름을 입력하세요.");
 				continue;
 			}
@@ -65,7 +65,7 @@ public class MemberController extends Controller {
 		while (true) {
 			System.out.printf("아이디 : ");
 			loginId = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMember(loginId)) {
+			if (loginId.equals("")) {
 				System.out.println("아이디를 입력하세요.");
 				continue;
 			}
@@ -79,7 +79,7 @@ public class MemberController extends Controller {
 		while (true) {
 			System.out.printf("비밀번호 : ");
 			loginPw = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMember(loginPw)) {
+			if (loginPw.equals("")) {
 				System.out.println("비밀번호를 입력하세요.");
 				continue;
 			}
@@ -93,7 +93,7 @@ public class MemberController extends Controller {
 		while (true) {
 			System.out.println("정말 삭제하시겠습니까? yes | no");
 			String YorN = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMember(YorN)) {
+			if (YorN.equals("")) {
 				System.out.println("yes 또는 no을 입력하세요.");
 				continue;
 			}
@@ -128,9 +128,8 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 비밀번호 : ");
 			String loginPw = sc.nextLine().trim();
 
-			if (Container.memberService.isEmptyMemberInformation(loginId)
-					|| Container.memberService.isEmptyMemberInformation(loginPw)) {
-				System.out.println("아이디는 필수정보 입니다.");
+			if (loginId.equals("") || loginPw.equals("")) {
+				System.out.println("아이디, 비밀번호는 필수정보 입니다.");
 				loginCount++;
 				continue;
 			}
@@ -160,7 +159,7 @@ public class MemberController extends Controller {
 			System.out.printf("아이디 : ");
 			loginId = sc.nextLine().trim();
 
-			if (Container.memberService.isEmptyMemberInformation(loginId)) {
+			if (loginId.equals("")) {
 				System.out.println("아이디는 필수정보 입니다.");
 				continue;
 			}
@@ -179,8 +178,7 @@ public class MemberController extends Controller {
 			loginPw = sc.nextLine().trim();
 			System.out.printf("비밀번호 재확인 : ");
 			loginPwConfirm = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMemberInformation(loginPw)
-					|| Container.memberService.isEmptyMemberInformation(loginPwConfirm)) {
+			if (loginPw.equals("") || loginPwConfirm.equals("")) {
 				System.out.println("비밀번호는 필수정보 입니다.");
 				continue;
 			}
@@ -197,7 +195,7 @@ public class MemberController extends Controller {
 			System.out.println("* 영어 8자리 이하");
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
-			if (Container.memberService.isEmptyMemberInformation(name)) {
+			if (name.equals("")) {
 				System.out.println("이름은 필수정보 입니다.");
 				continue;
 			}

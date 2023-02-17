@@ -98,7 +98,7 @@ public class ArticleController extends Controller {
 		while (true) {
 			System.out.printf("제목 : ");
 			title = sc.nextLine().trim();
-			if (Container.articleService.isEmptyArticle(title)) {
+			if (title.equals("")) {
 				System.out.println("제목을 입력하세요.");
 				continue;
 			}
@@ -107,7 +107,7 @@ public class ArticleController extends Controller {
 		while (true) {
 			System.out.printf("내용 : ");
 			body = sc.nextLine().trim();
-			if (Container.articleService.isEmptyArticle(body)) {
+			if (body.equals("")) {
 				System.out.println("내용을 입력하세요.");
 				continue;
 			}
@@ -127,17 +127,33 @@ public class ArticleController extends Controller {
 
 		if (foundArticle != null) {
 			String writeName = Container.articleService.foundNameInMember(foundArticle);
-
-			foundArticle.hit++;
-			System.out.printf("번호 : %d\n", foundArticle.id);
-			System.out.printf("조회 : %d\n", foundArticle.hit);
-			System.out.printf("작성 날짜 : %s\n", foundArticle.regDate);
+			System.out.println("+--------+--------------------------------------------+--------+-----+");
+			System.out.printf("| 제  목 | %-42s | 조회수 | %-4d|\n", foundArticle.title, foundArticle.hit++ + 1);
+			System.out.println("+--------+--------------------------------------------+--------+-----+");
+			System.out.printf("| 작성자 | %-58s|\n", writeName);
 			if (foundArticle.updateDate != null) {
-				System.out.printf("수정 날짜 : %s\n", foundArticle.updateDate);
+				System.out.println("+--------+----------------------------+--------+---------------------+");
+				System.out.printf("| 작성일 | %-27s| 수정일 | %-18s |\n", foundArticle.regDate, foundArticle.updateDate);
+				System.out.println("+--------+----------------------------+--------+---------------------+");
+			} else {
+				System.out.println("+--------+-----------------------------------------------------------+");
+				System.out.printf("| 작성일 | %-58s|\n", foundArticle.regDate);
+				System.out.println("+--------+-----------------------------------------------------------+");
 			}
-			System.out.printf("작성자 : %s\n", writeName);
-			System.out.printf("제목 : %s\n", foundArticle.title);
-			System.out.printf("내용 : %s\n", foundArticle.body);
+			if (foundArticle.body.length() >= 58) {
+				System.out.printf("| 내  용 | %-58s|\n", foundArticle.body.substring(0, 57));
+
+				for (int i = 57; i < foundArticle.body.length(); i = i + 57) {
+					if (foundArticle.body.length() >= i + 57) {
+						System.out.printf("|        | %-58s|\n", foundArticle.body.substring(i, i + 57));
+					} else {
+						System.out.printf("|        | %-58s|\n", foundArticle.body.substring(i));
+					}
+				}
+			} else {
+				System.out.printf("| 내  용 | %-58s|\n", foundArticle.body);
+			}
+			System.out.println("+--------+-----------------------------------------------------------+");
 		}
 	}
 
@@ -155,7 +171,7 @@ public class ArticleController extends Controller {
 			while (true) {
 				System.out.printf("제목 : ");
 				foundArticle.title = sc.nextLine().trim();
-				if (Container.articleService.isEmptyArticle(foundArticle.title)) {
+				if (foundArticle.title.equals("")) {
 					System.out.println("제목을 입력하세요.");
 					continue;
 				}
@@ -164,7 +180,7 @@ public class ArticleController extends Controller {
 			while (true) {
 				System.out.printf("내용 : ");
 				foundArticle.body = sc.nextLine().trim();
-				if (Container.articleService.isEmptyArticle(foundArticle.body)) {
+				if (foundArticle.body.equals("")) {
 					System.out.println("내용을 입력하세요.");
 					continue;
 				}

@@ -32,8 +32,4 @@ public class ArticleService {
 	public String foundNameInMember(Article article) {
 		return articleDao.foundNameInMember(article);
 	}
-
-	public boolean isEmptyArticle(String blank) {
-		return articleDao.isEmptyArticle(blank);
-	}
 }

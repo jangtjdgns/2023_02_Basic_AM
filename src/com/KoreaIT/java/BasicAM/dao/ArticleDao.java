@@ -24,7 +24,7 @@ public class ArticleDao {
 
 	public Article getArticle(String a, Article b) {
 		String[] commandBits = a.split(" ");
-		if (commandBits.length == 2) {
+		if (commandBits.length == 2 || commandBits[1] == " ") {
 			System.out.println("Add integer! -> article [command] [int]");
 			return b;
 		}
@@ -61,12 +61,5 @@ public class ArticleDao {
 			System.out.println("Not integer! -> article [command] [int]");
 			return id;
 		}
-	}
-
-	public boolean isEmptyArticle(String blank) {
-		if (blank == "") {
-			return true;
-		}
-		return false;
 	}
 }
