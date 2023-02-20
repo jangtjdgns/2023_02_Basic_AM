@@ -46,4 +46,13 @@ public class MemberDao {
 		}
 		return -1;
 	}
+
+//	public boolean isInteger(int age) {
+//		try {
+//			
+//		}catch(){
+//			
+//		}
+//		return false;
+//	}
 }

@@ -32,4 +32,8 @@ public class MemberService {
 	public boolean isJoinableLoginId(String loginId) {
 		return memberDao.isJoinableLoginId(loginId);
 	}
+
+//	public boolean isInteger(int age) {
+//		return memberDao.isInteger(age);
+//	}
 }

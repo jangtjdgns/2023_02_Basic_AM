@@ -189,7 +189,7 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// 동일한 닉네임을 사용해도 될까 고민중
+		// 동명이인 가능 사용해도 될까 고민중
 		String name = null;
 		while (true) {
 			System.out.println("* 영어 8자리 이하");
@@ -206,7 +206,65 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		Container.memberService.add(new Member(id, loginId, loginPw, name, Util.getNowDateStr(), Util.getNowDateStr()));
+		String gender = null;
+		while (true) {
+			System.out.println("*성별 - male, female");
+			System.out.printf("성별 : ");
+			gender = sc.nextLine().trim();
+			if (gender.equals("")) {
+				System.out.println("성별은 필수정보 입니다.");
+				continue;
+			}
+			if (!(gender.equals("male") || gender.equals("female"))) {
+				System.out.println("male 또는 female을 입력하세요.");
+				continue;
+			}
+			break;
+		}
+
+		// split 사용해보기
+		// 숫자만 입력가능하도록 수정 예정
+		String phoneNumber;
+		while (true) {
+			System.out.println("*숫자만 입력, '-' 금지");
+			System.out.printf("전화번호 : ");
+			phoneNumber = sc.nextLine().trim();
+
+			if (phoneNumber.equals("")) {
+				System.out.println("전화번호는 필수정보 입니다.");
+				continue;
+			}
+			break;
+		}
+
+		String address = null;
+		while (true) {
+			System.out.println("*영어로 입력해주세요.");
+			System.out.printf("주소 : ");
+			address = sc.nextLine().trim();
+
+			if (address.equals("")) {
+				System.out.println("주소는 필수정보 입니다.");
+				continue;
+			}
+			break;
+		}
+
+		// try, catch 사용해보기
+		// 공백입력할 경우도 생각해서 코드 수정하기
+		int age = -1;
+		while (true) {
+			System.out.printf("나이 : ");
+			age = sc.nextInt();
+			if (age < 0) {
+				System.out.println("나이를 입력해주세요");
+				continue;
+			}
+			break;
+		}
+
+		Container.memberService.add(new Member(id, Util.getNowDateStr(), Util.getNowDateStr(), loginId, loginPw, name,
+				gender, age, phoneNumber, address));
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
 	}
@@ -214,8 +272,8 @@ public class MemberController extends Controller {
 	public void makeTestDate() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
 		for (int i = 1; i <= maxTestId; i++) {
-			Container.memberService.add(
-					new Member(lastMemberId++ + 1, "t" + i, "t" + i, "TestId" + i, Util.getNowDateStr(), Util.getNowDateStr()));
+			Container.memberService.add(new Member(lastMemberId++ + 1, Util.getNowDateStr(), Util.getNowDateStr(), "t" + i,
+					"t" + i, "TestId" + i, "남", i * 10, "010-xxxx-xxxx", "한국"));
 		}
 	}
 }

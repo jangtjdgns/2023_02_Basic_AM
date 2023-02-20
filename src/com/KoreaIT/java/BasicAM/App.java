@@ -1,8 +1,10 @@
-/* ++ 디테일 디자인 추가, 불필요한 코드 제거
- * + 회원정보 추가
+/* ++ 제목 최대 길이 42로 제한, 회원정보 전화번호, 주소, 성별, 나이 추가
+ * + 회원정보 조회 기능 추가 예정
  * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
- * + 제목 길이 42이하로 제한 예정
  * + 댓글 기능 추가 예정
+ * + MemberController내의 member join에서 나이에 try, catch 기법 추가하기
+ * + MemberController내의 member join에서 전화번호 수정예정
+ * + member join 기능 구현 완료하면 코드 간략화 예정
  * ? | help
  * member join
  * member login

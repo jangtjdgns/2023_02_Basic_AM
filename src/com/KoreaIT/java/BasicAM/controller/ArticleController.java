@@ -102,6 +102,10 @@ public class ArticleController extends Controller {
 				System.out.println("제목을 입력하세요.");
 				continue;
 			}
+			if (title.length() > 42) {
+				System.out.println("제목 최대길이는 42입니다.");
+				continue;
+			}
 			break;
 		}
 		while (true) {
