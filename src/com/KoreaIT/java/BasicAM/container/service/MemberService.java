@@ -33,7 +33,7 @@ public class MemberService {
 		return memberDao.isJoinableLoginId(loginId);
 	}
 
-//	public boolean isInteger(int age) {
-//		return memberDao.isInteger(age);
-//	}
+	public Member getMember(String command, Member foundMember) {
+		return memberDao.getMember(command, foundMember);
+	}
 }

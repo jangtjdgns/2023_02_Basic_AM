@@ -35,9 +35,26 @@ public class MemberController extends Controller {
 		case "delete":
 			doDelete();
 			break;
+		case "check":
+			doCheck();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
+		}
+	}
+
+	private void doCheck() {
+		Member foundMember = null;
+		foundMember = Container.memberService.getMember(command, foundMember);
+		if (foundMember != null) {
+			System.out.printf("이름 : %s\n", foundMember.name);
+			System.out.printf("나이 : %d세\n", foundMember.age);
+			System.out.printf("성별 : %s\n", foundMember.gender);
+			System.out.printf("전화번호 : %s\n", foundMember.phoneNumber);
+			System.out.printf("주소 : %s\n", foundMember.address);
+			System.out.printf("가입일 : %s\n", foundMember.regDate);
+			return;
 		}
 	}
 

@@ -5,9 +5,9 @@ public class Member extends Dto {
 	public String loginPw;
 	public String name;
 	public String gender;
-	public int age;
 	public String phoneNumber;
 	public String address;
+	public int age;
 
 	public Member(int id, String regDate, String updateDate, String loginId, String loginPw,
 			String name, String gender, int age, String phoneNumber, String address) {

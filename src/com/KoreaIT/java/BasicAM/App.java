@@ -1,5 +1,4 @@
-/* ++ 제목 최대 길이 42로 제한, 회원정보 전화번호, 주소, 성별, 나이 추가
- * + 회원정보 조회 기능 추가 예정
+/* ++ 회원정보 조회 기능 구현, member check
  * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
  * + 댓글 기능 추가 예정
  * + MemberController내의 member join에서 나이에 try, catch 기법 추가하기
@@ -10,6 +9,7 @@
  * member login
  * member logout
  * member delete
+ * member check 추가
  * article list
  * article write
  * article detail [int]
@@ -64,6 +64,7 @@ public class App {
 					+ "|                                                |\n"
 					+ "|  게시글 목록  |  article list                  |\n"
 					+ "|  게시글 보기  |  article detail [게시글 번호]  |\n"
+					+ "|  회  원 조회  |  member chack [회원 이름]      |\n"
 					+ "|                                                |\n"
 					+ "+---------[로그인 후 이용가능한 명령어]----------+\n"
 					+ "|                                                |\n"
