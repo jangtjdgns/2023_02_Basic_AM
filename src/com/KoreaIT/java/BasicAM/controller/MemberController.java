@@ -206,7 +206,6 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// 동명이인 가능 사용해도 될까 고민중
 		String name = null;
 		while (true) {
 			System.out.println("* 영어 8자리 이하");
@@ -220,6 +219,29 @@ public class MemberController extends Controller {
 				System.out.println("이름은 8자리 이하만 가능합니다.");
 				continue;
 			}
+			break;
+		}
+
+		// try, catch 사용
+		String Age = null;
+		int age;
+		while (true) {
+			System.out.println("*숫자만 입력하세요.");
+			System.out.printf("나이 : ");
+			Age = sc.nextLine().trim();
+			if (Age.equals("")) {
+				System.out.println("나이를 입력해 주세요");
+				continue;
+			}
+			
+			//숫자인지 확인
+			try {
+				age = Integer.parseInt(Age);
+			} catch (NumberFormatException e) {
+				System.out.println("숫자만 입력하세요!");
+				continue;
+			}
+
 			break;
 		}
 
@@ -239,7 +261,7 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// split 사용해서 전화번호 저장하도록 구현 중
+		// split 사용해서 전화번호 저장하도록 구현
 		String phoneNumber = null;
 		while (true) {
 			System.out.println("*전화번호 입력 예시");
@@ -258,7 +280,6 @@ public class MemberController extends Controller {
 			for (String pnum : pNum) {
 				try {
 					int StrtoInt = Integer.parseInt(pnum);
-					System.out.println(StrtoInt);
 				} catch (NumberFormatException e) {
 					System.out.println("숫자만 입력하세요!");
 					phoneNumber = null;
@@ -281,20 +302,6 @@ public class MemberController extends Controller {
 
 			if (address.equals("")) {
 				System.out.println("주소는 필수정보 입니다.");
-				continue;
-			}
-			break;
-		}
-
-		// try, catch 사용해보기
-		// 공백입력할 경우도 생각해서 코드 수정하기
-		int age = -1;
-		while (true) {
-			System.out.println("*숫자만 입력하세요.");
-			System.out.printf("나이 : ");
-			age = sc.nextInt();
-			if (age < 0) {
-				System.out.println("나이를 입력해 주세요");
 				continue;
 			}
 			break;
