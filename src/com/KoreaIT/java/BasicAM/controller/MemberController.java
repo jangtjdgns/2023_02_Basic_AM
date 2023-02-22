@@ -239,18 +239,37 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// split 사용해보기
-		// 숫자만 입력가능하도록 수정 예정
-		String phoneNumber;
+		// split 사용해서 전화번호 저장하도록 구현 중
+		String phoneNumber = null;
 		while (true) {
-			System.out.println("*숫자만 입력, '-' 금지");
+			System.out.println("*전화번호 입력 예시");
+			System.out.println("(010 1234 5678, 010-1234-5678)");
 			System.out.printf("전화번호 : ");
+
 			phoneNumber = sc.nextLine().trim();
 
-			if (phoneNumber.equals("")) {
-				System.out.println("전화번호는 필수정보 입니다.");
+			String[] pNum = phoneNumber.split(" |\\-"); // 공백, -
+			if (pNum.length != 3) {
+				System.out.println("입력 예시대로 다시 입력해주세요.");
 				continue;
 			}
+
+			// 숫자인지 체크
+			for (String pnum : pNum) {
+				try {
+					int StrtoInt = Integer.parseInt(pnum);
+					System.out.println(StrtoInt);
+				} catch (NumberFormatException e) {
+					System.out.println("숫자만 입력하세요!");
+					phoneNumber = null;
+					break;
+				}
+			}
+
+			if (phoneNumber == null) {
+				continue;
+			}
+
 			break;
 		}
 
@@ -271,10 +290,11 @@ public class MemberController extends Controller {
 		// 공백입력할 경우도 생각해서 코드 수정하기
 		int age = -1;
 		while (true) {
+			System.out.println("*숫자만 입력하세요.");
 			System.out.printf("나이 : ");
 			age = sc.nextInt();
 			if (age < 0) {
-				System.out.println("나이를 입력해주세요");
+				System.out.println("나이를 입력해 주세요");
 				continue;
 			}
 			break;

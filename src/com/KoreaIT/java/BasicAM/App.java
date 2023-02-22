@@ -1,15 +1,14 @@
-/* ++ 회원정보 조회 기능 구현, member check
+/* ++ MemberController 클래스 내의 member join의 전화번호 부분 코드 수정
  * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
  * + 댓글 기능 추가 예정
  * + MemberController내의 member join에서 나이에 try, catch 기법 추가하기
  * + MemberController내의 member join에서 전화번호 수정예정
- * + member join 기능 구현 완료하면 코드 간략화 예정
  * ? | help
  * member join
  * member login
  * member logout
  * member delete
- * member check 추가
+ * member check
  * article list
  * article write
  * article detail [int]
