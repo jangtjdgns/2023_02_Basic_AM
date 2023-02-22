@@ -1,4 +1,4 @@
-/* ++ MemberController 클래스 내의 member join의 나이 부분 코드 수정
+/* ++ member join의 중복되는 부분 제거
  * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
  * + 댓글 기능 추가 예정
  * + MemberController내의 member join에서 나이에 try, catch 기법 추가하기

@@ -222,22 +222,19 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// try, catch 사용
 		String Age = null;
 		int age;
 		while (true) {
-			System.out.println("*숫자만 입력하세요.");
 			System.out.printf("나이 : ");
 			Age = sc.nextLine().trim();
 			if (Age.equals("")) {
 				System.out.println("나이를 입력해 주세요");
 				continue;
 			}
-			
-			//숫자인지 확인
-			try {
+			boolean isInteger = Container.memberService.isInteger(Age);
+			if (isInteger) {
 				age = Integer.parseInt(Age);
-			} catch (NumberFormatException e) {
+			} else {
 				System.out.println("숫자만 입력하세요!");
 				continue;
 			}
@@ -261,36 +258,23 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		// split 사용해서 전화번호 저장하도록 구현
 		String phoneNumber = null;
 		while (true) {
-			System.out.println("*전화번호 입력 예시");
-			System.out.println("(010 1234 5678, 010-1234-5678)");
+			System.out.println("*예시 - 010 1234 5678, 010-1234-5678");
 			System.out.printf("전화번호 : ");
 
 			phoneNumber = sc.nextLine().trim();
 
-			String[] pNum = phoneNumber.split(" |\\-"); // 공백, -
+			String[] pNum = phoneNumber.split(" |\\-");
 			if (pNum.length != 3) {
-				System.out.println("입력 예시대로 다시 입력해주세요.");
+				System.out.println("예시대로 다시 입력해주세요.");
 				continue;
 			}
 
-			// 숫자인지 체크
-			for (String pnum : pNum) {
-				try {
-					int StrtoInt = Integer.parseInt(pnum);
-				} catch (NumberFormatException e) {
-					System.out.println("숫자만 입력하세요!");
-					phoneNumber = null;
-					break;
-				}
-			}
-
-			if (phoneNumber == null) {
+			if (Container.memberService.isInteger(pNum) == false) {
+				System.out.println("숫자만 입력하세요!");
 				continue;
 			}
-
 			break;
 		}
 
