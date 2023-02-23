@@ -38,10 +38,113 @@ public class MemberController extends Controller {
 		case "check":
 			doCheck();
 			break;
+		case "modify":
+			doModify();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
+	}
+
+	// 회원정보 수정 기능 구현
+	// 수정가능한 회원정보 - 비밀번호, 이름, 전화번호, 주소
+	// 수정 시 비밀번호 확인 후 수정
+	private void doModify() {
+		String[] lengthCheck = command.split(" ");
+		if (lengthCheck.length >= 3) {
+			System.out.println("명령어가 다릅니다.");
+			return;
+		}
+		System.out.printf("비밀번호 확인 : ");
+		String loginPwConfirm = sc.nextLine().trim();
+		if (!(loginedMember.loginPw.equals(loginPwConfirm))) {
+			System.out.println("비밀번호가 다릅니다.");
+			return;
+		}
+
+		System.out.println("수정 하실 정보의 번호를 입력하세요.");
+		System.out.println("1. 비밀번호");
+		System.out.println("2. 이름");
+		System.out.println("3. 전화번호");
+		System.out.println("4. 주소");
+		System.out.printf("입력 : ");
+		String modifyNum = sc.nextLine().trim();
+
+		if (Container.memberService.isNoProblem(modifyNum) == false) {
+			return;
+		}
+
+		if (modifyNum.equals("1")) {
+			while (true) {
+				System.out.printf("비밀번호 : ");
+				String newLoginPw = sc.nextLine().trim();
+				System.out.printf("비밀번호 재확인 : ");
+				String newLoginPwConfirm = sc.nextLine().trim();
+				if (newLoginPw.equals("") || newLoginPwConfirm.equals("")) {
+					System.out.println("비밀번호는 필수정보 입니다.");
+					continue;
+				}
+				if (!(loginedMember.loginPw.equals(loginPwConfirm))) {
+					System.out.println("비밀번호를 다시 입력해주세요");
+					continue;
+				}
+				loginedMember.loginPw = newLoginPw;
+				break;
+			}
+		} else if (modifyNum.equals("2")) {
+			while (true) {
+				System.out.println("* 영어 8자리 이하");
+				System.out.printf("수정할 이름 : ");
+				String newName = sc.nextLine().trim();
+
+				if (newName.equals("")) {
+					System.out.println("이름은 필수정보 입니다.");
+					continue;
+				}
+				if (newName.length() > 8) {
+					System.out.println("이름은 8자리 이하만 가능합니다.");
+					continue;
+				}
+				loginedMember.name = newName;
+				break;
+			}
+		} else if (modifyNum.equals("3")) {
+			while (true) {
+				System.out.println("*예시 - 010 1234 5678, 010-1234-5678");
+				System.out.printf("전화번호 : ");
+
+				String newPhoneNumber = sc.nextLine().trim();
+
+				String[] pNum = newPhoneNumber.split(" |\\-");
+				if (pNum.length != 3) {
+					System.out.println("예시대로 다시 입력해주세요.");
+					continue;
+				}
+
+				if (Container.memberService.isInteger(pNum) == false) {
+					System.out.println("숫자만 입력하세요!");
+					continue;
+				}
+				loginedMember.phoneNumber = newPhoneNumber;
+				break;
+			}
+		} else if (modifyNum.equals("4")) {
+			while (true) {
+				System.out.println("*영어로 입력해주세요.");
+				System.out.printf("주소 : ");
+				String newAddress = sc.nextLine().trim();
+
+				if (newAddress.equals("")) {
+					System.out.println("주소는 필수정보 입니다.");
+					continue;
+				}
+				loginedMember.address = newAddress;
+				break;
+			}
+		}
+
+		System.out.println("회원정보가 수정 되었습니다.");
 	}
 
 	private void doCheck() {

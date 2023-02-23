@@ -1,14 +1,13 @@
-/* ++ member join의 중복되는 부분 제거
- * + 회원정보 수정 기능 추가 예정 -> 아직은 이름만 수정 가능하게할 예정
+/* ++ 회원정보 수정 기능 구현
+ * + MemberController 중복 제거 예정
  * + 댓글 기능 추가 예정
- * + MemberController내의 member join에서 나이에 try, catch 기법 추가하기
- * + MemberController내의 member join에서 전화번호 수정예정
  * ? | help
  * member join
  * member login
  * member logout
  * member delete
  * member check
+ * member modify 추가
  * article list
  * article write
  * article detail [int]
@@ -63,7 +62,7 @@ public class App {
 					+ "|                                                |\n"
 					+ "|  게시글 목록  |  article list                  |\n"
 					+ "|  게시글 보기  |  article detail [게시글 번호]  |\n"
-					+ "|  회  원 조회  |  member chack [회원 이름]      |\n"
+					+ "|  회 원 조 회  |  member chack [회원 이름]      |\n"
 					+ "|                                                |\n"
 					+ "+---------[로그인 후 이용가능한 명령어]----------+\n"
 					+ "|                                                |\n"
@@ -72,6 +71,7 @@ public class App {
 					+ "|  게시글 수정  |  article modify [게시글 번호]  |\n"
 					+ "|  로 그 아 웃  |  member logout                 |\n"
 					+ "|  계 정 삭 제  |  member delete                 |\n"
+					+ "|  회 원 조 회  |  member modify      						|\n"
 					+ "|                                                |\n"
 					+ "+--------[로그아웃 후 이용가능한 명령어]---------+\n"
 					+ "|                                                |\n"
@@ -109,6 +109,7 @@ public class App {
 			case "article delete":
 			case "member logout":
 			case "member delete":
+			case "member modify":
 				if (Controller.isLogined() == false) {
 					System.out.println("로그인 후 이용해 주세요");
 					continue;

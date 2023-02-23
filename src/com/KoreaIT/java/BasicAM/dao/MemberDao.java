@@ -68,7 +68,7 @@ public class MemberDao {
 
 	public boolean isInteger(String pNum) {
 		try {
-			int check = Integer.parseInt(pNum);
+			Integer.parseInt(pNum);
 		} catch (NumberFormatException e) {
 			return false;
 		}
@@ -84,4 +84,22 @@ public class MemberDao {
 		}
 		return true;
 	}
+
+	public boolean isNoProblem(String modifyNum) {
+		boolean isInt = isInteger(modifyNum);
+
+		if (isInt) {
+			int StoInt = Integer.parseInt(modifyNum);
+			if (!(StoInt >= 1 && StoInt <= 4)) {
+				System.out.println("1 ~ 4사이의 번호만 입력하세요.");
+				return false;
+			}
+		}
+		if (isInt == false) {
+			System.out.println("제대로 된 번호를 입력해 주세요.");
+			return false;
+		}
+		return true;
+	}
+
 }

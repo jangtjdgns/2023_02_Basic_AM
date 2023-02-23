@@ -36,7 +36,7 @@ public class MemberService {
 	public Member getMember(String command, Member foundMember) {
 		return memberDao.getMember(command, foundMember);
 	}
-
+	
 	public boolean isInteger(String pNum) {
 		return memberDao.isInteger(pNum);
 	}
@@ -44,4 +44,10 @@ public class MemberService {
 	public boolean isInteger(String[] pNum) {
 		return memberDao.isInteger(pNum);
 	}
+
+	public boolean isNoProblem(String modifyNum) {
+		return memberDao.isNoProblem(modifyNum);
+	}
+
+
 }
