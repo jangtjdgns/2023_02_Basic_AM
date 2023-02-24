@@ -81,14 +81,13 @@ public class MemberController extends Controller {
 				String newLoginPw = sc.nextLine().trim();
 				System.out.printf("비밀번호 재확인 : ");
 				String newLoginPwConfirm = sc.nextLine().trim();
-				if (newLoginPw.equals("") || newLoginPwConfirm.equals("")) {
-					System.out.println("비밀번호는 필수정보 입니다.");
+
+				// 수정 중 
+				// 고려사항 - 공백입력 시, 두 비밀번호가 다를 시, 바꾸기 전 비밀번호와 동일하지 않은가
+				if(Container.memberService.checkLoginPw(newLoginPwConfirm, loginPwConfirm) == null) {
 					continue;
 				}
-				if (!(loginedMember.loginPw.equals(loginPwConfirm))) {
-					System.out.println("비밀번호를 다시 입력해주세요");
-					continue;
-				}
+				
 				loginedMember.loginPw = newLoginPw;
 				break;
 			}

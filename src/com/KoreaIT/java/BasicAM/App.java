@@ -1,5 +1,4 @@
-/* ++ 회원정보 수정 기능 구현
- * + MemberController 중복 제거 예정
+/* ++ MemberController 중복 제거 중
  * + 댓글 기능 추가 예정
  * ? | help
  * member join

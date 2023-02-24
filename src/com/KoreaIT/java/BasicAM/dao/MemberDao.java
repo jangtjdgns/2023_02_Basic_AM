@@ -102,4 +102,16 @@ public class MemberDao {
 		return true;
 	}
 
+	public String checkLoginPw(String LoginPw, String LoginPwConfirm) {
+		if (LoginPw.equals("") || LoginPwConfirm.equals("")) {
+			System.out.println("비밀번호는 필수정보 입니다.");
+			return null;
+		}
+		if (!(LoginPw.equals(LoginPwConfirm))) {
+			System.out.println("비밀번호를 다시 입력해주세요");
+			return null;
+		}
+		return "a";
+	}
+
 }
