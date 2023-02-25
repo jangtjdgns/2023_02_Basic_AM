@@ -47,9 +47,6 @@ public class MemberController extends Controller {
 		}
 	}
 
-	// 회원정보 수정 기능 구현
-	// 수정가능한 회원정보 - 비밀번호, 이름, 전화번호, 주소
-	// 수정 시 비밀번호 확인 후 수정
 	private void doModify() {
 		String[] lengthCheck = command.split(" ");
 		if (lengthCheck.length >= 3) {
@@ -82,12 +79,15 @@ public class MemberController extends Controller {
 				System.out.printf("비밀번호 재확인 : ");
 				String newLoginPwConfirm = sc.nextLine().trim();
 
-				// 수정 중 
-				// 고려사항 - 공백입력 시, 두 비밀번호가 다를 시, 바꾸기 전 비밀번호와 동일하지 않은가
-				if(Container.memberService.checkLoginPw(newLoginPwConfirm, loginPwConfirm) == null) {
+				// - 공백입력 시, 두 비밀번호가 다를 시
+				if (Container.memberService.checkLoginPw(newLoginPw, newLoginPwConfirm) == null) {
 					continue;
 				}
-				
+				// 바꾸기 전(현재) 비밀번호와 동일할 시
+				if (loginedMember.loginPw.equals(newLoginPw)) {
+					System.out.println("현재 비밀번호와 같습니다.");
+					continue;
+				}
 				loginedMember.loginPw = newLoginPw;
 				break;
 			}
@@ -97,12 +97,13 @@ public class MemberController extends Controller {
 				System.out.printf("수정할 이름 : ");
 				String newName = sc.nextLine().trim();
 
-				if (newName.equals("")) {
-					System.out.println("이름은 필수정보 입니다.");
+				// - 공백입력 시, 이름 9자리 이상일때
+				if(Container.memberService.checkName(newName) == null) {
 					continue;
 				}
-				if (newName.length() > 8) {
-					System.out.println("이름은 8자리 이하만 가능합니다.");
+				// 현재 등록된 이름과 같을 시
+				if (loginedMember.name.equals(newName)) {
+					System.out.println("현재 등록된 이름과 같습니다.");
 					continue;
 				}
 				loginedMember.name = newName;
@@ -114,15 +115,15 @@ public class MemberController extends Controller {
 				System.out.printf("전화번호 : ");
 
 				String newPhoneNumber = sc.nextLine().trim();
-
-				String[] pNum = newPhoneNumber.split(" |\\-");
-				if (pNum.length != 3) {
-					System.out.println("예시대로 다시 입력해주세요.");
+				newPhoneNumber = Container.memberService.checkPhoneNumber(newPhoneNumber);
+				
+				// 예시대로 입력 안할 시, 문자 입력 시
+				if(newPhoneNumber == null) {
 					continue;
 				}
-
-				if (Container.memberService.isInteger(pNum) == false) {
-					System.out.println("숫자만 입력하세요!");
+				// 현재 등록된 전화번호와 같을 시
+				if(loginedMember.phoneNumber.equals(newPhoneNumber)) {
+					System.out.println("현재 등록된 전화번호와 같습니다.");
 					continue;
 				}
 				loginedMember.phoneNumber = newPhoneNumber;
@@ -133,9 +134,14 @@ public class MemberController extends Controller {
 				System.out.println("*영어로 입력해주세요.");
 				System.out.printf("주소 : ");
 				String newAddress = sc.nextLine().trim();
-
-				if (newAddress.equals("")) {
-					System.out.println("주소는 필수정보 입니다.");
+				
+				// 공백 입력 시
+				if(Container.memberService.checkAddress(newAddress) == null) {
+					continue;
+				}
+				// 현재 등록된 주소와 같을 시
+				if(loginedMember.address.equals(newAddress)) {
+					System.out.println("현재 등록된 주소와 같습니다.");
 					continue;
 				}
 				loginedMember.address = newAddress;
@@ -297,12 +303,8 @@ public class MemberController extends Controller {
 			loginPw = sc.nextLine().trim();
 			System.out.printf("비밀번호 재확인 : ");
 			loginPwConfirm = sc.nextLine().trim();
-			if (loginPw.equals("") || loginPwConfirm.equals("")) {
-				System.out.println("비밀번호는 필수정보 입니다.");
-				continue;
-			}
-			if (!(loginPw.equals(loginPwConfirm))) {
-				System.out.println("비밀번호를 다시 입력해주세요");
+			
+			if (Container.memberService.checkLoginPw(loginPw, loginPwConfirm) == null) {
 				continue;
 			}
 			break;
@@ -313,14 +315,11 @@ public class MemberController extends Controller {
 			System.out.println("* 영어 8자리 이하");
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
-			if (name.equals("")) {
-				System.out.println("이름은 필수정보 입니다.");
+		  // - 공백입력 시, 이름 9자리 이상일때
+			if(Container.memberService.checkName(name) == null) {
 				continue;
 			}
-			if (name.length() > 8) {
-				System.out.println("이름은 8자리 이하만 가능합니다.");
-				continue;
-			}
+
 			break;
 		}
 
@@ -366,15 +365,10 @@ public class MemberController extends Controller {
 			System.out.printf("전화번호 : ");
 
 			phoneNumber = sc.nextLine().trim();
-
-			String[] pNum = phoneNumber.split(" |\\-");
-			if (pNum.length != 3) {
-				System.out.println("예시대로 다시 입력해주세요.");
-				continue;
-			}
-
-			if (Container.memberService.isInteger(pNum) == false) {
-				System.out.println("숫자만 입력하세요!");
+			phoneNumber = Container.memberService.checkPhoneNumber(phoneNumber);
+			
+			// 예시대로 입력 안할 시, 문자 입력 시
+			if(phoneNumber == null) {
 				continue;
 			}
 			break;
@@ -386,8 +380,8 @@ public class MemberController extends Controller {
 			System.out.printf("주소 : ");
 			address = sc.nextLine().trim();
 
-			if (address.equals("")) {
-				System.out.println("주소는 필수정보 입니다.");
+			// 공백 입력 시
+			if(Container.memberService.checkAddress(address) == null) {
 				continue;
 			}
 			break;
@@ -403,7 +397,7 @@ public class MemberController extends Controller {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
 		for (int i = 1; i <= maxTestId; i++) {
 			Container.memberService.add(new Member(lastMemberId++ + 1, Util.getNowDateStr(), Util.getNowDateStr(), "t" + i,
-					"t" + i, "TestId" + i, "남", i * 10, "010-xxxx-xxxx", "한국"));
+					"t" + i, "TestId" + i, "남", i * 10, "010-0000-000" + i, "한국"));
 		}
 	}
 }

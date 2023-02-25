@@ -111,7 +111,42 @@ public class MemberDao {
 			System.out.println("비밀번호를 다시 입력해주세요");
 			return null;
 		}
-		return "a";
+		return LoginPw;
+	}
+
+	public String checkName(String memberName) {
+		if (memberName.equals("")) {
+			System.out.println("이름은 필수정보 입니다.");
+			return null;
+		}
+		if (memberName.length() > 8) {
+			System.out.println("이름은 8자리 이하만 가능합니다.");
+			return null;
+		}
+		return memberName;
+	}
+
+	public String checkPhoneNumber(String phoneNumber) {
+		String[] pNum = phoneNumber.split(" |\\-");
+		if (pNum.length != 3) {
+			System.out.println("예시대로 다시 입력해주세요.");
+			return null;
+		}
+
+		if (isInteger(pNum) == false) {
+			System.out.println("숫자만 입력하세요!");
+			return null;
+		}
+		String combinePhoneNumber = pNum[0] + "-" + pNum[1] + "-" + pNum[2];
+		return phoneNumber = combinePhoneNumber;
+	}
+
+	public String checkAddress(String address) {
+		if (address.equals("")) {
+			System.out.println("주소는 필수정보 입니다.");
+			return null;
+		}
+		return address;
 	}
 
 }

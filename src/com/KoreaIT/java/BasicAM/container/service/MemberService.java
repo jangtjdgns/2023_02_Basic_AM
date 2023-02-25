@@ -53,4 +53,16 @@ public class MemberService {
 		return memberDao.checkLoginPw(LoginPw, LoginPwConfirm);
 	}
 
+	public String checkName(String memberName) {
+		return memberDao.checkName(memberName);
+	}
+
+	public String checkPhoneNumber(String PhoneNumber) {
+		return memberDao.checkPhoneNumber(PhoneNumber);
+	}
+
+	public String checkAddress(String Address) {
+		return memberDao.checkAddress(Address);
+	}
+
 }
