@@ -10,6 +10,7 @@ public class Container {
 	public static MemberDao memberDao;
 	public static ArticleService articleService;
 	public static MemberService memberService;
+	
 
 	static {
 		articleDao = new ArticleDao();

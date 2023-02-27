@@ -1,12 +1,11 @@
-/* ++ MemberController 중복 제거 중
- * + 댓글 기능 추가 예정
+/* ++ 댓글 기능 구현 중
  * ? | help
  * member join
  * member login
  * member logout
  * member delete
  * member check
- * member modify 추가
+ * member modify
  * article list
  * article write
  * article detail [int]

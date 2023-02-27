@@ -157,7 +157,25 @@ public class ArticleController extends Controller {
 			} else {
 				System.out.printf("| 내  용 | %-58s|\n", foundArticle.body);
 			}
-			System.out.println("+--------+-----------------------------------------------------------+");
+			if (!(isLogined())) {
+				System.out.println("+--------+-----------------------------------------------------------+");
+				System.out.printf("| 댓  글 |                 로 그 인  후  이 용 가 능                 |\n");
+				System.out.println("+--------+-----------------------------------------------------------+");
+				return;
+			}
+
+			System.out.println("+--------------------------------------------------------------------+");
+			System.out.printf("|        댓 글 쓰 기 : reply write  |  나 가 기 : eixt               |\n");
+//
+			System.out.println("+--------------------------------------------------------------------+");
+
+			System.out.println("댓글 작성 여부 : ");
+			String replyWrite = sc.nextLine();
+			if (replyWrite.equals("reply write")) {
+				System.out.println("댓글 : ");
+				String replyBody = sc.nextLine();
+			}
+
 		}
 	}
 
