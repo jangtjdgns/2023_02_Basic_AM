@@ -1,11 +1,11 @@
 package com.KoreaIT.java.BasicAM.dto;
 
 public class Reply extends Dto{
-	public String memberId;
-	public String articleId;
+	public int memberId;
+	public int articleId;
 	public String replyBody;
 	
-	public Reply(int id, String memberId, String articleId, String replyBody, String regDate, String updateDate) {
+	public Reply(int id, int memberId, int articleId, String replyBody, String regDate, String updateDate) {
 		this.id = id;
 		this.memberId = memberId;
 		this.articleId = articleId;

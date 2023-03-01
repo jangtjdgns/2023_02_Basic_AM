@@ -1,4 +1,6 @@
-/* ++ Reply Dto 생성
+/* ++ 댓글기능 구현 완료
+ * + ReplyService, ReplyDao 생성하고 댓글 기능 코드 이전예정
+ * + 이전 후 디테일적 요소 수정예정
  * ? | help
  * member join
  * member login
