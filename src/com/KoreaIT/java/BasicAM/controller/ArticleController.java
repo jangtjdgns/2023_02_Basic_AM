@@ -1,18 +1,15 @@
 package com.KoreaIT.java.BasicAM.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.container.Container;
 import com.KoreaIT.java.BasicAM.dto.Article;
-import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.dto.Reply;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class ArticleController extends Controller {
 	private List<Article> articles;
-	private List<Reply> replies = new ArrayList<>();
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
@@ -68,7 +65,7 @@ public class ArticleController extends Controller {
 		String tempTitle = null;
 		Article article = null;
 		String writeName = null;
-		
+
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			article = articles.get(i);
 			writeName = Container.articleService.foundNameInMember(article);
@@ -167,47 +164,31 @@ public class ArticleController extends Controller {
 				return;
 			}
 
-			System.out.println("+--------------------------------------------------------------------+");
+			System.out.println("+--------+-----------------------------------------------------------+");
 			System.out.printf("|        댓 글 쓰 기 : reply write  |  나 가 기 : exit               |\n");
 
-			Reply re = null;
-			String replyWriteName = null;
-			
-			for (Reply reply : replies) {
-				if (reply.articleId == foundArticle.id) {
-					re = reply;
-					break;
-				}
-			}
-			
-			List<Member> members = Container.memberDao.members;
-			
-			if (re != null) {
-				for(int k = 0; k < replies.size(); k++) {
-					for (Reply reply : replies) {
-						if (reply.id == k) {
-							re = replies.get(k);
-							break;
-						}
-					}
-					
-					for(Member member : members) {
-						if(member.id == re.memberId) {
-							replyWriteName = member.name;
-							break;
-						}
-					}
-					if (re.replyBody.length() >= 57) {
-						System.out.printf("| %-8s| %-56s |\n", replyWriteName, re.replyBody.substring(0, 56));
-						for (int j = 56; j < re.replyBody.length(); j = j + 56) {
-							if (re.replyBody.length() >= j + 56) {
-								System.out.printf("|         | %-57s|\n", re.replyBody.substring(j, j + 56));
-							} else {
-								System.out.printf("|         | %-57s|\n", re.replyBody.substring(j));
+			Reply reply = null;
+			reply = Container.replyService.getReplyByArticleId(reply, foundArticle);
+			String replyAuthor = null;
+
+			if (reply != null) {
+				for (int k = 0; k < Container.replyDao.replies.size(); k++) {
+					reply = Container.replyService.getReplyByMemberId(reply, k);
+					replyAuthor = Container.replyService.getReplyAuthor(reply, replyAuthor);
+
+					if (foundArticle.id == reply.articleId) {
+						if (reply.replyBody.length() >= 57) {
+							System.out.printf("| %-8s| %-56s |\n", replyAuthor, reply.replyBody.substring(0, 56));
+							for (int j = 56; j < reply.replyBody.length(); j = j + 56) {
+								if (reply.replyBody.length() >= j + 56) {
+									System.out.printf("|         | %-57s|\n", reply.replyBody.substring(j, j + 56));
+								} else {
+									System.out.printf("|         | %-57s|\n", reply.replyBody.substring(j));
+								}
 							}
+						} else {
+							System.out.printf("| %-8s| %-57s|\n", replyAuthor, reply.replyBody);
 						}
-					} else {
-						System.out.printf("| %-8s| %-57s|\n", replyWriteName, re.replyBody);
 					}
 				}
 			}
@@ -219,11 +200,12 @@ public class ArticleController extends Controller {
 			if (replyWrite.equals("reply write")) {
 				System.out.printf("댓글 : ");
 				String replyBody = sc.nextLine();
-				replies.add(new Reply(lastReplyId++ + 1, loginedMember.id, foundArticle.id, replyBody, Util.getNowDateStr(),
-						Util.getNowDateStr()));
-			}else if(replyWrite.equals("exit")) {
+				Container.replyService.add(new Reply(lastReplyId++, loginedMember.id, foundArticle.id, replyBody,
+						Util.getNowDateStr(), Util.getNowDateStr()));
+				System.out.println("댓글이 작성되었습니다.");
+			} else if (replyWrite.equals("exit")) {
 				System.out.println("게시글 나가기");
-			}else {
+			} else {
 				System.out.println("\"reply write\" 또는 \"exit\"를 입력해주세요.");
 			}
 		}

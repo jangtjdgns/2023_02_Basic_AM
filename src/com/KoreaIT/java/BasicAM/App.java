@@ -1,5 +1,4 @@
-/* ++ 댓글기능 구현 완료
- * + ReplyService, ReplyDao 생성하고 댓글 기능 코드 이전예정
+/* ++ ReplyService, ReplyDao 생성하고 댓글 기능 코드 이전, 다른 게시글에도 댓글이 중복으로 생기는 오류 수정
  * + 이전 후 디테일적 요소 수정예정
  * ? | help
  * member join
