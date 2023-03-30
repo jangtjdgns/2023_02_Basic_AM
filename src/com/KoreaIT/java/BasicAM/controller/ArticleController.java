@@ -86,6 +86,7 @@ public class ArticleController extends Controller {
 						writeName, article.regDate);
 			}
 		}
+		
 		System.out.println("+------+---------------+--------+------------+-----------------------+");
 	}
 

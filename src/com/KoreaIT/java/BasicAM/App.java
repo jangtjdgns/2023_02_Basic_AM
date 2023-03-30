@@ -1,5 +1,4 @@
-/* ++ ReplyService, ReplyDao 생성하고 댓글 기능 코드 이전, 다른 게시글에도 댓글이 중복으로 생기는 오류 수정
- * + 이전 후 디테일적 요소 수정예정
+/* ++ 회원수정 중 취소 기능 추가, 오타 수정
  * ? | help
  * member join
  * member login
@@ -70,7 +69,7 @@ public class App {
 					+ "|  게시글 수정  |  article modify [게시글 번호]  |\n"
 					+ "|  로 그 아 웃  |  member logout                 |\n"
 					+ "|  계 정 삭 제  |  member delete                 |\n"
-					+ "|  회 원 조 회  |  member modify      						|\n"
+					+ "|  회 원 수 정  |  member modify      						|\n"
 					+ "|                                                |\n"
 					+ "+--------[로그아웃 후 이용가능한 명령어]---------+\n"
 					+ "|                                                |\n"
